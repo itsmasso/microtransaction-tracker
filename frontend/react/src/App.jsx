@@ -1,25 +1,20 @@
 import { useState } from "react";
 import "./App.css";
-import Sidebar from "./components/Sidebar/sidebar";
-import Navbar from "./components/Navbar/Navbar";
+import PageLayout from "./components/PageLayout/PageLayout";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Games from "./components/Games/Games";
+import { BrowserRouter, Routes, Route } from "react-router";
+
 function App() {
   return (
-    <div>
-      <div className="layout">
-        <div className="sidebar-wrapper">
-          <Sidebar />
-        </div>
-        <div className="layout-right">
-          <div className="navbar-wrapper">
-            <Navbar />
-          </div>
-          <div className="dashboard-wrapper">
-            <Dashboard />
-          </div>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PageLayout />}>
+          <Route index element={<Dashboard />}></Route>
+          <Route path='games' element={<Games />}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

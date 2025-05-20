@@ -1,0 +1,53 @@
+import { React, useState, useEffect } from "react";
+import Gamecard from "../Gamecard/Gamecard";
+import "./Games.css";
+const Games = () => {
+  const [games, setGames] = useState([]);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/games/search?query=${encodeURIComponent(
+          query
+        )}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch games.");
+      const data = await response.json();
+      console.log(data);
+      setGames(data);
+    } catch (err) {
+      console.error("Failed to fetch games!", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <div className="games">
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={query}
+          placeholder="Search for a game..."
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {loading && <p>Loading...</p>}
+      <ul className="games-grid">
+        {games.map((_game) => (
+          <li key={_game.igdbId}>
+            <Gamecard game={_game} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Games;

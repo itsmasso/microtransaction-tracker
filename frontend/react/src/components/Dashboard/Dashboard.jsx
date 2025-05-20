@@ -3,14 +3,14 @@ import "./Dashboard.css";
 import Gamecard from "../Gamecard/Gamecard";
 const Dashboard = () => {
   return (
-    <main className="dashboard">
-      <div className="card-grid">
+    <div className="dashboard">
+      <div className="dashboard-grid">
         <Gamecard />
         <Gamecard />
         <Gamecard />
         <Gamecard />
       </div>
-    </main>
+    </div>
   );
 };
 export default Dashboard;
