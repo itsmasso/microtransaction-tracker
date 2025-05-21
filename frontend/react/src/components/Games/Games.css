@@ -1,4 +1,4 @@
-.games{
+.games {
   flex: 1;
   height: 100%;
   display: flex;
@@ -7,9 +7,10 @@
 }
 
 .games-grid {
+  list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 2rem;
-  justify-content: flex-start; 
+  justify-content: flex-start;
 }

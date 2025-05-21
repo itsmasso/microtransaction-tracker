@@ -4,6 +4,7 @@ import cors from "cors";
 import userRoutes from "./routes/UserRoutes.js";
 import gamesRoute from "./routes/GamesRoutes.js"
 import connectDB from "./config/mongodb.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -12,9 +13,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/api", userRoutes);
-app.use("/api/games", gamesRoute);
+app.use("/user",  userRoutes);
+app.use("/games", gamesRoute);
+
 
 app.listen(PORT, () => {
   console.log("Server is running.");

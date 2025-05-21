@@ -5,10 +5,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="dashboard-grid">
-        <Gamecard />
-        <Gamecard />
-        <Gamecard />
-        <Gamecard />
+
       </div>
     </div>
   );
