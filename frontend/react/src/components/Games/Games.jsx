@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Gamecard from "../Gamecard/Gamecard";
 import "./Games.css";
-const Games = () => {
+const Games = ({user}) => {
   const [games, setGames] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,9 +13,7 @@ const Games = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/games/search?query=${encodeURIComponent(
-          query
-        )}`
+        `http://localhost:5000/games/search?query=${encodeURIComponent(query)}`
       );
       if (!response.ok) throw new Error("Failed to fetch games.");
       const data = await response.json();
@@ -40,9 +38,9 @@ const Games = () => {
       </form>
       {loading && <p>Loading...</p>}
       <ul className="games-grid">
-        {games.map((_game) => (
-          <li key={_game.igdbId}>
-            <Gamecard game={_game} />
+        {games.map((game) => (
+          <li key={game.igdbId}>
+            <Gamecard user={user} game={game} source="games"/>
           </li>
         ))}
       </ul>

@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 const { ObjectId } = mongoose.Schema.Types;
 
 const UserGamesSchema = new mongoose.Schema({
-  userId: {type: ObjectId, required: true}, 
-  gameCardId: {type: ObjectId, required: true},
+  userId: {type: ObjectId, ref: "users", required: true}, 
+  gameId: {type: ObjectId, ref: "games", required: true},
   purchasePlatforms: {type: [String], default: []},
   purchaseEmail: {type: String},
   receiptEmails: {type: [String], default: []},
@@ -11,5 +11,5 @@ const UserGamesSchema = new mongoose.Schema({
   addedAt: { type: Date, default: Date.now },
 });
 
-const UserGamesModel = mongoose.model("UserGames", UserGamesSchema);
+const UserGamesModel = mongoose.model("usergames", UserGamesSchema);
 export default UserGamesModel;

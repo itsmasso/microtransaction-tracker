@@ -1,7 +1,7 @@
 import express from "express";
 
 import { fetchIGDBGames } from "../utils/fetchIGDBGames.js";
-import { AddGame } from "../controllers/GamesController.js";
+import { AddGame, getUserGames } from "../controllers/GamesController.js";
 import userAuth from "../middleware/userAuth.js"
 
 const router = express.Router();
@@ -19,5 +19,6 @@ router.get("/search", async (req, res) => {
 });
 
 router.post("/add-game", userAuth, AddGame);
+router.get("/get-user-games", userAuth, getUserGames);
 
 export default router;
