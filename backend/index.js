@@ -5,6 +5,7 @@ import userRoutes from "./routes/UserRoutes.js";
 import gamesRoute from "./routes/GamesRoutes.js";
 import connectDB from "./config/mongodb.js";
 import cookieParser from "cookie-parser";
+import googleAuthRoutes from "./routes/GoogleAuthRoutes.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use("/user", userRoutes);
 app.use("/games", gamesRoute);
+app.use("/", googleAuthRoutes);
 
 app.listen(PORT, () => {
   console.log("Server is running.");

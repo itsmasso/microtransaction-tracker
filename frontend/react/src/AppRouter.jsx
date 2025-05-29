@@ -42,8 +42,8 @@ const AppRouter = () => {
       </Route>
       <Route element={<ProtectedRoute user={user} />}>
         <Route path="/" element={<PageLayout />}>
-          <Route index element={<Dashboard user={user}/>}></Route>
-          <Route path="games" element={<Games user={user}/>}></Route>
+          <Route index element={<Dashboard user={user} />}></Route>
+          <Route path="games" element={<Games user={user} />}></Route>
         </Route>
       </Route>
     </Routes>

@@ -2,10 +2,16 @@ import React from "react";
 import "./Gamecard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
-const Gamecard = ({ user, game, source }) => {
+const Gamecard = ({ user, game, userGame, source, onClick }) => {
+  const [gameDetails, setGameDetails] = useState(null);
   const handleViewGame = async (e) => {
     e.preventDefault();
+    if (onClick) {
+      console.log("Gamecard clicked:", userGame ?? gameDetails);
+      onClick(userGame ?? gameDetails);
+    }
   };
   const handleAddGame = async (e) => {
     e.preventDefault();
@@ -32,6 +38,10 @@ const Gamecard = ({ user, game, source }) => {
 
       const data = await response.json();
       if (response.ok) {
+        const newUserGame = data;
+        setGameDetails(newUserGame);
+        if (onClick) onClick(newUserGame);
+
         console.log("Game added!", data);
       } else {
         console.error("Server error:", data.message);

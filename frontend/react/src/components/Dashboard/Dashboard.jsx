@@ -3,11 +3,15 @@ import "./Dashboard.css";
 import Gamecard from "../Gamecard/Gamecard";
 import { useState } from "react";
 import { useEffect } from "react";
+import GameDetailPanel from "../GameDetailsPanel/GameDetailsPanel";
 
-const Dashboard = ({user}) => {
+const Dashboard = ({ user }) => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [currentGame, setCurrentGame] = useState(null);
+  const handleGameCardClick = (userGame) => {
+    setCurrentGame(userGame);
+  };
   useEffect(() => {
     const fetchUserGames = async () => {
       setLoading(true);
@@ -34,12 +38,26 @@ const Dashboard = ({user}) => {
     <div className="dashboard">
       {loading && <p>Loading...</p>}
       <ul className="dashboards-grid">
-        {games.map((game) => (
-          <li key={game.gameId._id}>
-            <Gamecard user={user} game={game.gameId} source="dashboard"/>
+        {games.map((userGame) => (
+          <li key={userGame.gameId._id}>
+            <Gamecard
+              user={user}
+              game={userGame.gameId}
+              userGame={userGame}
+              source="dashboard"
+              onClick={() => handleGameCardClick(userGame)}
+            />
           </li>
         ))}
       </ul>
+      {currentGame && (
+        <GameDetailPanel
+          userGame={currentGame}
+          onClose={() => {
+            setCurrentGame(null);
+          }}
+        />
+      )}
     </div>
   );
 };
