@@ -15,7 +15,7 @@ const PageLayout = () => {
           <Navbar />
         </div>
         <div className="main-content-wrapper">
-          <Outlet /> {/* Render nested child routes */}
+          <Outlet /> {/* This renders nested child routes */}
         </div>
       </div>
     </div>

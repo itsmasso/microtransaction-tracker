@@ -1,12 +1,11 @@
 import React from "react";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = (user) => {
   return (
     <nav className="navbar">
-      <ul>
-        <li></li>
-      </ul>
+      <div className="navbar-left"><h1>Dashboard</h1></div>
+      <div className="navbar-right">profile</div>
     </nav>
   );
 };

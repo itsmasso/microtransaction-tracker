@@ -3,19 +3,17 @@ import "./GameDetailsPanel.css";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const GameDetailsPanel = ({ userGame, onClose }) => {
-  const [expenses, setExpenses] = useState(userGame.expenses || []);
+const GameDetailsPanel = ({ userGame, onClose, onExpensesChange }) => {
+  const expenses = userGame.expenses || [];
   const [newExpense, setNewExpense] = useState({
     name: "",
     purchaseAmount: "",
     date: new Date().toISOString().split("T")[0],
   });
-
-  useEffect(() => {
-    if (userGame) {
-      setExpenses(userGame.expenses || []);
-    }
-  }, [userGame]);
+  const totalSpent = expenses.reduce(
+    (sum, expense) => sum + Number(expense.purchaseAmount),
+    0
+  );
 
   const handleAddExpense = async () => {
     if (!newExpense.name || !newExpense.purchaseAmount) return;
@@ -35,12 +33,14 @@ const GameDetailsPanel = ({ userGame, onClose }) => {
       );
 
       if (response.ok) {
-        setExpenses((prev) => [newExpense, ...prev]);
+        const updated = [newExpense, ...expenses];
+        onExpensesChange(userGame.gameId._id, updated);
         setNewExpense({
           name: "",
           purchaseAmount: "",
           date: new Date().toISOString().split("T")[0],
         });
+        if (onUpdate) onUpdate();
       }
     } catch (err) {
       console.error("Failed to add expense:", err);
@@ -58,14 +58,15 @@ const GameDetailsPanel = ({ userGame, onClose }) => {
       );
       if (response.ok) {
         console.log("Successfully deleted expense!");
-        setExpenses((prev) => prev.filter((_, i) => i !== index));
+        const updated = expenses.filter((_, i) => i !== index);
+        onExpensesChange(userGame.gameId._id, updated);
+        if (onUpdate) onUpdate();
       } else {
         console.error("Failed to delete expense.");
       }
     } catch (err) {
       console.error("Failed to delete expense.", err);
     }
-    
   };
 
   return (
@@ -87,7 +88,7 @@ const GameDetailsPanel = ({ userGame, onClose }) => {
           <p>
             <strong>Platforms:</strong> {userGame.gameId.platform?.join(", ")}
           </p>
-
+          <div>{`total spent: ${totalSpent}`}</div>
           <hr />
           <div className="expense-form">
             <h4>Add Expense</h4>
