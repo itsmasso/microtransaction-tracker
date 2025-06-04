@@ -72,7 +72,11 @@ export const deleteGameExpense = async (req, res) => {
     }
 
     const parsedIndex = parseInt(index);
-    if (isNaN(parsedIndex) || parsedIndex < 0 || parsedIndex >= game.expenses.length) {
+    if (
+      isNaN(parsedIndex) ||
+      parsedIndex < 0 ||
+      parsedIndex >= game.expenses.length
+    ) {
       return res.status(400).json({ message: "Invalid expense index." });
     }
 
@@ -96,6 +100,27 @@ export const getUserGames = async (req, res) => {
     return res.json({ success: true, games });
   } catch (err) {
     console.error("Failed to fetch games.");
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const searchUserGame = async (req, res) => {
+  const { query } = req.query;
+  const userId = req.user.id;
+  if (!query) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing search query." });
+  }
+  try {
+    const games = await GameExpenseDetails.find({
+      userId,
+      "gameId.name": { $regex: query, $options: "i" }, //case-insensitive partial match
+    });
+
+    res.json({ success: true, games });
+  } catch (err) {
+    console.error("Failed to search user game.");
     res.status(500).json({ success: false, message: err.message });
   }
 };

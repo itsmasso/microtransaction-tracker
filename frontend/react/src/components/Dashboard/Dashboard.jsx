@@ -9,12 +9,15 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = ({ user }) => {
   const [games, setGames] = useState([]);
+  const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [gamesLoading, setGamesLoading] = useState(false);
   const [currentGame, setCurrentGame] = useState(null);
   const [query, setQuery] = useState("");
   const handleGameCardClick = (userGame) => {
     setCurrentGame(userGame);
   };
+
   const totalSpent = games.length
     ? games.reduce((total, game) => {
         const gameTotal = game.expenses.reduce(
@@ -39,6 +42,13 @@ const Dashboard = ({ user }) => {
       })
     : null;
 
+  const topGameTotalExpenses = highestSpentGame
+    ? highestSpentGame.expenses.reduce(
+        (total, expense) => total + Number(expense.purchaseAmount),
+        0
+      )
+    : null;
+
   const updateGameExpenses = (gameId, updatedExpenses) => {
     setGames((prevGames) =>
       prevGames.map((game) =>
@@ -56,6 +66,19 @@ const Dashboard = ({ user }) => {
       }));
     }
   };
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setFilteredGames(games);
+      return;
+    }
+
+    const filtered = games.filter((g) =>
+      g.gameId.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredGames(filtered);
+  }, [query, games]);
+
   useEffect(() => {
     const fetchUserGames = async () => {
       setLoading(true);
@@ -68,6 +91,7 @@ const Dashboard = ({ user }) => {
           const data = await response.json();
           console.log(data);
           setGames(data.games || []);
+          setFilteredGames(data.games || []);
         }
       } catch (err) {
         console.error("Failed to fetch user games!", err);
@@ -100,7 +124,7 @@ const Dashboard = ({ user }) => {
                 <div className="dashboard-top-game-fade-overlay" />
                 <div className="dashboard-top-game-content">
                   <div className="dashboard-top-game-total">
-                    <h1>${totalSpent}</h1>
+                    <h1>${topGameTotalExpenses}</h1>
                     <span>Total spent</span>
                   </div>
                   <div className="dashboard-top-game-title">
@@ -131,7 +155,7 @@ const Dashboard = ({ user }) => {
           </form>
         </div>
         <ul className="dashboard-grid">
-          {games.map((userGame) => (
+          {filteredGames.map((userGame) => (
             <li key={userGame.gameId._id}>
               <Gamecard
                 user={user}

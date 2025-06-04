@@ -1,8 +1,9 @@
 import { React, useState, useEffect } from "react";
 import Gamecard from "../Gamecard/Gamecard";
 import "./Games.css";
-const Games = ({user}) => {
+const Games = ({ user }) => {
   const [games, setGames] = useState([]);
+  const [userGames, setUserGames] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +26,26 @@ const Games = ({user}) => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const fetchUserGames = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:5000/games/get-user-games`,
+          { method: "GET", credentials: "include" }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUserGames(data.games);
+        }
+      } catch (err) {
+        console.error("Failed to fetch user games!", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserGames();
+  }, [games]);
   return (
     <div className="games">
       <form onSubmit={handleSearch}>
@@ -40,7 +61,12 @@ const Games = ({user}) => {
       <ul className="games-grid">
         {games.map((game) => (
           <li key={game.igdbId}>
-            <Gamecard user={user} game={game} source="games"/>
+            <Gamecard
+              user={user}
+              game={game}
+              userGame={userGames.find((ug) => ug.gameId.igdbId === game.igdbId)}
+              source="games"
+            />
           </li>
         ))}
       </ul>

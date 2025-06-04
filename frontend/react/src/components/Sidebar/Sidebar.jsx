@@ -27,8 +27,31 @@ const Sidebar = () => {
           >
             <span>Games</span>
           </NavLink>
+          <NavLink
+            to="/purchases"
+            className={({ isActive }) =>
+              `sidebar-button${isActive ? " active" : ""}`
+            }
+          >
+            <span>Purchases</span>
+          </NavLink>
+          <NavLink
+            to="/subscriptions"
+            className={({ isActive }) =>
+              `sidebar-button${isActive ? " active" : ""}`
+            }
+          >
+            <span>Subscriptions</span>
+          </NavLink>
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              `sidebar-button${isActive ? " active" : ""}`
+            }
+          >
+            <span>Settings</span>
+          </NavLink>
         </div>
-        <h2>settings</h2>
       </div>
     </aside>
   );

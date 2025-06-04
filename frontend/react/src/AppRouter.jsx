@@ -3,6 +3,9 @@ import "./App.css";
 import PageLayout from "./components/PageLayout/PageLayout";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Games from "./components/Games/Games";
+import Purchases from "./components/Purchases/Purchases";
+import Subscriptions from "./components/Subscriptions/Subscriptions";
+import Settings from "./components/Settings/Settings";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import PublicRoute from "./util/PublicRoute";
@@ -44,6 +47,9 @@ const AppRouter = () => {
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Dashboard user={user} />}></Route>
           <Route path="games" element={<Games user={user} />}></Route>
+          <Route path="purchases" element={<Purchases />}></Route>
+          <Route path="subscriptions" element={<Subscriptions />}></Route>
+          <Route path="settings" element={<Settings />}></Route>
         </Route>
       </Route>
     </Routes>

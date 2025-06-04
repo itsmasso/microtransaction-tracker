@@ -32,6 +32,9 @@
   padding: 1rem 1.5rem;
   color: #ebecee;
 }
+.dashboard-total-subs h3 {
+  font-weight: 400;
+}
 
 .dashboard-top-game {
   position: relative;
@@ -86,7 +89,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-margin-left: 5rem;
+  margin-left: 5rem;
 }
 .dashboard-top-game-title h1 {
   font-size: 1.8rem;

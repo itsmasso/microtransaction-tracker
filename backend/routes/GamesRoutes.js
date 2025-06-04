@@ -1,7 +1,7 @@
 import express from "express";
 
 import { fetchIGDBGames } from "../utils/fetchIGDBGames.js";
-import { AddGame, getUserGames, updateGameExpenses, deleteGameExpense } from "../controllers/GamesController.js";
+import { AddGame, getUserGames, updateGameExpenses, deleteGameExpense, searchUserGame } from "../controllers/GamesController.js";
 import userAuth from "../middleware/userAuth.js";
 
 const router = express.Router();
@@ -28,5 +28,7 @@ router.put("/update-game-expense", userAuth, updateGameExpenses);
 //delete expense to a tracked game
 router.delete("/delete-game-expense/:gameId/:index", userAuth, deleteGameExpense)
 
+//search user game
+router.get("/search-user-game", userAuth,searchUserGame );
 export default router;
 

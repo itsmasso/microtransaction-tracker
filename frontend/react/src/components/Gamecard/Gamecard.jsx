@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Gamecard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const Gamecard = ({ user, game, userGame, source, onClick }) => {
   const [gameDetails, setGameDetails] = useState(null);
+  const disableAddCard = userGame ? true : false;
   const handleViewGame = async (e) => {
     e.preventDefault();
     if (onClick) {
@@ -53,12 +55,30 @@ const Gamecard = ({ user, game, userGame, source, onClick }) => {
   return (
     <div className="card-container">
       <div className="card">
-        {game.coverUrl && <img src={game.coverUrl} alt={game.name} />}
-        {source === "games" && (
-          <button className="card-overlay" onClick={handleAddGame}>
-            <FontAwesomeIcon icon={faPlusCircle} className="overlay-add-icon" />
-          </button>
+        {game.coverUrl && (
+          <img
+            src={game.coverUrl}
+            alt={game.name}
+            className={`card-image ${disableAddCard && source==="games" ? "card-image-disabled" : ""}`}
+          />
         )}
+        {source === "games" ? (
+          !disableAddCard ? (
+            <button className="card-overlay" onClick={handleAddGame}>
+              <FontAwesomeIcon
+                icon={faPlusCircle}
+                className="overlay-add-icon"
+              />
+            </button>
+          ) : (
+            <div className="card-overlay-disabled">
+              <FontAwesomeIcon
+                icon={faCheckCircle}
+                className="overlay-add-icon"
+              />
+            </div>
+          )
+        ) : null}
         {source === "dashboard" && (
           <button className="card-overlay" onClick={handleViewGame}></button>
         )}
