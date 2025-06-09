@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from "react";
 import Gamecard from "../Gamecard/Gamecard";
 import "./Games.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const Games = ({ user }) => {
   const [games, setGames] = useState([]);
   const [userGames, setUserGames] = useState([]);
@@ -48,14 +50,15 @@ const Games = ({ user }) => {
   }, [games]);
   return (
     <div className="games">
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSearch} className="search-container">
+        <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
         <input
           type="text"
           value={query}
           placeholder="Search for a game..."
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className="search-button">Search</button>
       </form>
       {loading && <p>Loading...</p>}
       <ul className="games-grid">
@@ -64,7 +67,9 @@ const Games = ({ user }) => {
             <Gamecard
               user={user}
               game={game}
-              userGame={userGames.find((ug) => ug.gameId.igdbId === game.igdbId)}
+              userGame={userGames.find(
+                (ug) => ug.gameId.igdbId === game.igdbId
+              )}
               source="games"
             />
           </li>

@@ -1,1 +1,62 @@
+.games {
+  padding: 1rem;
+}
+.clear-filters-button {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #3ea0d8;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #1d212a;
+  border-radius: 999px;
+  width: 400px;
+  padding: 0.25rem 0.3rem; /* Less horizontal padding */
+  height: 45px;
+  gap: 0.5rem;
+}
 
+.search-icon {
+  color: #606972;
+  margin-left: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.search-container input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #eee;
+  font-size: 0.9rem;
+  height: 100%;
+  padding-left: 0.5rem;
+}
+
+.search-container input::placeholder {
+  color: #606972;
+}
+
+.search-button {
+  background-color: #2e323d;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 500;
+  height: 35px;
+
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #2a2e38;
+}

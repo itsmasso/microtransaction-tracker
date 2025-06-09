@@ -49,23 +49,26 @@ const Dashboard = ({ user }) => {
       )
     : null;
 
-  const updateGameExpenses = (gameId, updatedExpenses) => {
+  const updateGameDetails = (gameId, updates) => {
     setGames((prevGames) =>
       prevGames.map((game) =>
-        game.gameId._id === gameId
-          ? { ...game, expenses: updatedExpenses }
-          : game
+        game.gameId._id === gameId ? { ...game, ...updates } : game
       )
     );
-
-    //If the detail panel is open, update
+    //if game details is open, update it
     if (currentGame?.gameId._id === gameId) {
       setCurrentGame((prev) => ({
         ...prev,
-        expenses: updatedExpenses,
+        ...updates,
       }));
     }
   };
+
+const updateUserGames = (gameId) => {
+  setGames((prevGames) =>
+    prevGames.filter((game) => game.gameId._id !== gameId)
+  );
+};
 
   useEffect(() => {
     if (!query.trim()) {
@@ -174,7 +177,8 @@ const Dashboard = ({ user }) => {
           onClose={() => {
             setCurrentGame(null);
           }}
-          onExpensesChange={updateGameExpenses}
+          onGameDetailChange={updateGameDetails}
+          onDeleteUserGame={updateUserGames}
         />
       )}
     </div>

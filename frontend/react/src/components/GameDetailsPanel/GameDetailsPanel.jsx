@@ -2,19 +2,47 @@ import React from "react";
 import "./GameDetailsPanel.css";
 import { useState } from "react";
 import { useEffect } from "react";
+import Subscriptions from "../Subscriptions/Subscriptions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { getDaysRemaining } from "../../util/SubscriptionCounter";
 
-const GameDetailsPanel = ({ userGame, onClose, onExpensesChange }) => {
+const GameDetailsPanel = ({
+  userGame,
+  onClose,
+  onGameDetailChange,
+  onDeleteUserGame,
+}) => {
   const expenses = userGame.expenses || [];
   const [newExpense, setNewExpense] = useState({
     name: "",
     purchaseAmount: "",
     date: new Date().toISOString().split("T")[0],
   });
+
+  const subscriptions = userGame.subscriptions || [];
+  const [newSubscription, setNewSubscription] = useState({
+    name: "",
+    purchaseAmount: "",
+    date: new Date().toISOString().split("T")[0],
+    recurrence: "monthly",
+  });
+
   const totalSpent = expenses.reduce(
     (sum, expense) => sum + Number(expense.purchaseAmount),
     0
   );
-
+  const formatDateUTC = (isoDateStr) => {
+    const date = new Date(isoDateStr);
+    return date.toLocaleDateString("en-US", {
+      timeZone: "UTC",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
   const handleAddExpense = async () => {
     if (!newExpense.name || !newExpense.purchaseAmount) return;
 
@@ -33,14 +61,13 @@ const GameDetailsPanel = ({ userGame, onClose, onExpensesChange }) => {
       );
 
       if (response.ok) {
-        const updated = [newExpense, ...expenses];
-        onExpensesChange(userGame.gameId._id, updated);
+        const updatedExpenses = [newExpense, ...expenses];
+        onGameDetailChange(userGame.gameId._id, { expenses: updatedExpenses });
         setNewExpense({
           name: "",
           purchaseAmount: "",
           date: new Date().toISOString().split("T")[0],
         });
-        if (onUpdate) onUpdate();
       }
     } catch (err) {
       console.error("Failed to add expense:", err);
@@ -58,9 +85,8 @@ const GameDetailsPanel = ({ userGame, onClose, onExpensesChange }) => {
       );
       if (response.ok) {
         console.log("Successfully deleted expense!");
-        const updated = expenses.filter((_, i) => i !== index);
-        onExpensesChange(userGame.gameId._id, updated);
-        if (onUpdate) onUpdate();
+        const updatedExpenses = expenses.filter((_, i) => i !== index);
+        onGameDetailChange(userGame.gameId._id, { expenses: updatedExpenses });
       } else {
         console.error("Failed to delete expense.");
       }
@@ -69,71 +95,288 @@ const GameDetailsPanel = ({ userGame, onClose, onExpensesChange }) => {
     }
   };
 
+  const handleAddSubscriptions = async () => {
+    if (
+      !newSubscription.name ||
+      !newSubscription.purchaseAmount ||
+      !newSubscription.recurrence
+    )
+      return;
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/games/update-subscription",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            gameId: userGame.gameId._id,
+            subscriptions: [newSubscription],
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const updatedSubscriptions = [newSubscription, ...subscriptions];
+        onGameDetailChange(userGame.gameId._id, {
+          subscriptions: updatedSubscriptions,
+        });
+        console.log("Sending subscription:", updatedSubscriptions);
+        setNewSubscription({
+          name: "",
+          purchaseAmount: "",
+          date: new Date().toISOString().split("T")[0],
+          recurrence: "monthly",
+        });
+      }
+    } catch (err) {
+      console.error("Failed to add subscription:", err);
+    }
+  };
+
+  const handleDeleteSubscription = async (index) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/games/delete-subscription/${userGame.gameId._id}/${index}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        console.log("Successfully cancelled subscription!");
+        const updatedSubscriptions = subscriptions.filter(
+          (_, i) => i !== index
+        );
+        onGameDetailChange(userGame.gameId._id, {
+          subscriptions: updatedSubscriptions,
+        });
+      } else {
+        console.error("Failed to delete subscription.");
+      }
+    } catch (err) {
+      console.error("Failed to delete subscription.", err);
+    }
+  };
+  const handleDeleteGame = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/games/delete-user-game`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            gameId: userGame.gameId._id,
+          }),
+        }
+      );
+      if (response.ok) {
+        console.log("Successfully removed game from library!");
+        onDeleteUserGame(userGame.gameId._id);
+        onClose();
+      } else {
+        console.error("Failed to delete subscription.");
+      }
+    } catch (err) {
+      console.error("Failed to delete subscription.", err);
+    }
+  };
   return (
     <div>
       <div className="panel-overlay" onClick={onClose} />
       <div className="panel">
         <header className="panel-header">
-          <h2>{userGame.gameId.name}</h2>
-          <button onClick={onClose} className="close-btn">
-            ×
+          <button onClick={onClose} className="close-button">
+            <FontAwesomeIcon icon={faArrowLeftLong} size="m" />
           </button>
         </header>
         <div className="panel-content">
-          <img
-            src={userGame.gameId.coverUrl}
-            alt={userGame.gameId.name}
-            className="panel-image"
-          />
-          <p>
-            <strong>Platforms:</strong> {userGame.gameId.platform?.join(", ")}
-          </p>
-          <div>{`total spent: ${totalSpent}`}</div>
-          <hr />
-          <div className="expense-form">
-            <h4>Add Expense</h4>
-            <input
-              type="text"
-              placeholder="Expense Name"
-              value={newExpense.name}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, name: e.target.value })
-              }
-            />
-            <input
-              type="number"
-              placeholder="Amount"
-              value={newExpense.purchaseAmount}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, purchaseAmount: e.target.value })
-              }
-            />
-            <input
-              type="date"
-              value={newExpense.date}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, date: e.target.value })
-              }
-            />
-            <button onClick={handleAddExpense}>Add</button>
+          <div className="panel-game-details">
+            <div className="panel-game-details-left">
+              <h1>{userGame.gameId.name}</h1>
+              <div className="panel-game-details-total">
+                <span>Total spent</span>
+                <h1>{`$ ${totalSpent}`}</h1>
+              </div>
+              <p>
+                <strong>Date added:</strong> {formatDateUTC(userGame.addedAt)}
+              </p>
+              <button className="delete-game-button" onClick={handleDeleteGame}>
+                <FontAwesomeIcon icon={faXmarkCircle} size="m" />
+                Remove Game
+              </button>
+            </div>
+            <div className="panel-image-container">
+              <img src={userGame.gameId.coverUrl} alt={userGame.gameId.name} />
+            </div>
           </div>
 
-          <div className="expenses-scroll">
-            <h4>Expenses</h4>
-            <ul>
-              {expenses.map((exp, idx) => (
-                <li key={idx} className="expense-item">
-                  <div>
-                    <strong>{exp.name}</strong> — ${exp.purchaseAmount}
-                    <br />
-                    <small>{new Date(exp.date).toLocaleDateString()}</small>
+          <div className="panel-forms">
+            <div className="panel-forms-wrapper">
+              <div className="expense-form">
+                <div className="panel-form-container">
+                  <h4>Add Expense</h4>
+                  <input
+                    type="text"
+                    placeholder="Expense Name"
+                    value={newExpense.name}
+                    onChange={(e) =>
+                      setNewExpense({ ...newExpense, name: e.target.value })
+                    }
+                  />
+                </div>
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  value={newExpense.purchaseAmount}
+                  onChange={(e) =>
+                    setNewExpense({
+                      ...newExpense,
+                      purchaseAmount: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="date"
+                  value={newExpense.date}
+                  onChange={(e) =>
+                    setNewExpense({ ...newExpense, date: e.target.value })
+                  }
+                />
+                <button onClick={handleAddExpense}>Add Expense</button>
+              </div>
+              <div className="expenses-scroll">
+                <div className="panel-form-container">
+                  <h4>Expenses</h4>
+                  <ul>
+                    {expenses.map((exp, idx) => (
+                      <li key={idx} className="expense-item">
+                        <div className="expense-info">
+                          <strong className="expense-name">{exp.name}</strong>
+                          <div className="expense-date">
+                            {new Date(exp.date).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </div>
+                        </div>
+
+                        <div className="expense-price">
+                          $ {Number(exp.purchaseAmount).toFixed(2)}
+                        </div>
+
+                        <button
+                          className="delete-expense"
+                          onClick={() => handleDeleteExpense(idx)}
+                        >
+                          <FontAwesomeIcon icon={faXmark} size="m" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="panel-forms-wrapper">
+              <div className="subscriptions-form">
+                <div className="panel-form-container">
+                  <h4>Add Subscription</h4>
+                  <input
+                    type="text"
+                    placeholder="Subscription Name"
+                    value={newSubscription.name}
+                    onChange={(e) =>
+                      setNewSubscription({
+                        ...newSubscription,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+
+                  <input
+                    type="number"
+                    placeholder="Amount"
+                    value={newSubscription.purchaseAmount}
+                    onChange={(e) =>
+                      setNewSubscription({
+                        ...newSubscription,
+                        purchaseAmount: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="subscription-date">
+                  <div className="panel-form-container">
+                    <label htmlFor="startDate">Date added</label>
+                    <input
+                      name="startDate"
+                      type="date"
+                      value={newSubscription.date}
+                      onChange={(e) =>
+                        setNewSubscription({
+                          ...newSubscription,
+                          date: e.target.value,
+                        })
+                      }
+                    />
                   </div>
-                  <button onClick={() => handleDeleteExpense(idx)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
+                  <div className="panel-form-container">
+                    <label htmlFor="recurrence">Billing Cycle</label>
+                    <select
+                      name="recurrence"
+                      value={newSubscription.recurrence}
+                      onChange={(e) =>
+                        setNewSubscription({
+                          ...newSubscription,
+                          recurrence: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="monthly">Monthly</option>
+                      <option value="yearly">Yearly</option>
+                      <option value="weekly">Weekly</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button onClick={handleAddSubscriptions}>
+                  Add Subscription
+                </button>
+              </div>
+
+              <div className="expenses-scroll">
+                <div className="panel-form-container">
+                  <h4>Subscriptions</h4>
+                  <ul>
+                    {subscriptions.map((sub, idx) => (
+                      <li key={idx} className="expense-item">
+                        <div className="expense-info">
+                          <strong className="expense-name">{sub.name}</strong>
+                          <span className="subscription-tag">
+                            {getDaysRemaining(sub.date, sub.recurrence)} days
+                            left
+                          </span>
+                        </div>
+
+                        <div className="expense-price">
+                          $ {Number(sub.purchaseAmount).toFixed(2)}
+                        </div>
+
+                        <button
+                          className="delete-expense"
+                          onClick={() => handleDeleteSubscription(idx)}
+                        >
+                          <FontAwesomeIcon icon={faXmark} size="m" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
