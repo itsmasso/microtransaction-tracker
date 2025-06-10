@@ -341,8 +341,9 @@
 
 .subscription-tag {
   display: inline-block;
-  background-color: #1d212a;
+  background-color: transparent;
   color: #ccc;
+  border: 1.5px solid #ccc;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 0.7rem;

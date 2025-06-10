@@ -3,6 +3,8 @@ import "./Purchases.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp} from "@fortawesome/free-solid-svg-icons";
 const Purchases = ({ user }) => {
   const [userGames, setUserGames] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -10,6 +12,8 @@ const Purchases = ({ user }) => {
   const [usingFilters, setUsingFilters] = useState(false);
   const [searchBy, setSearchBy] = useState("name"); // search by "name" or "game"
   const [filterType, setFilterType] = useState("None");
+  const [sortType, setSortType] = useState("date");
+  const [sortOrder, setSortOrder] = useState("desc"); //set asc or desc (ascending or descending)
   const [loading, setLoading] = useState(false);
 
   const formatDate = (dateStr) => {
@@ -46,9 +50,27 @@ const Purchases = ({ user }) => {
     setFilteredItems(rebuiltItems);
   };
 
-  const sortedByNewest = filteredItems
-    .slice() //to avoid mutating original state
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const sortedItems = filteredItems.slice().sort((a, b) => {
+    if (sortType === "date") {
+      return sortOrder === "asc"
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date);
+    } else if (sortType === "purchaseAmount") {
+      return sortOrder === "asc"
+        ? Number(a.purchaseAmount) - Number(b.purchaseAmount)
+        : Number(b.purchaseAmount) - Number(a.purchaseAmount);
+    }
+    return 0;
+  });
+
+  const handleSort = (key) => {
+    if (sortType === key) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortType(key);
+      setSortOrder("asc");
+    }
+  };
 
   useEffect(() => {
     const fetchUserGames = async () => {
@@ -140,7 +162,6 @@ const Purchases = ({ user }) => {
   };
   useEffect(() => {
     if (filterType === "None" && query === "") {
-
       const allItems = userGames.flatMap((game) => {
         const expenses =
           game.expenses?.map((expense) => ({
@@ -204,13 +225,36 @@ const Purchases = ({ user }) => {
             value={filterType}
             onChange={(e) => {
               setFilterType(e.target.value);
-              
             }}
           >
             <option value="None">None</option>
             <option value="Expense">Expense</option>
             <option value="Subscription">Subscription</option>
           </select>
+        </div>
+        <div className="sort-container">
+          <div className="filter-type-container">
+            <label htmlFor="sortBy">Type</label>
+            <select
+              name="sortBy"
+              value={sortType}
+              onChange={(e) => {
+                setSortType(e.target.value);
+              }}
+            >
+              <option value="date">Date</option>
+              <option value="purchaseAmount">Cost</option>
+            </select>
+          </div>
+          <button
+            onClick={() =>
+              sortType === "purchaseAmount"
+                ? handleSort("purchaseAmount")
+                : handleSort("date")
+            }
+          >
+            {sortOrder === "asc" ? <FontAwesomeIcon icon={faArrowUp} size="m" /> :  <FontAwesomeIcon icon={faArrowDown} size="m" />}
+          </button>
         </div>
         {usingFilters && (
           <button
@@ -236,8 +280,8 @@ const Purchases = ({ user }) => {
           <div className="purchase-col">Type</div>
         </div>
         <div className="purchases-list">
-          {sortedByNewest.length > 0 ? (
-            sortedByNewest.map((expense, idx) => (
+          {sortedItems.length > 0 ? (
+            sortedItems.map((expense, idx) => (
               <div className="purchase-row" key={idx}>
                 <div className="purchase-col">
                   <div className="purchase-game-img">
