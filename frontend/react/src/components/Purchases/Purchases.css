@@ -9,7 +9,7 @@
   color: white;
 }
 
-.purchases-search-wrapper {
+.purchases-header {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -24,7 +24,7 @@
   border-radius: 15px;
 }
 
-.purchases-header,
+.purchases-container-header,
 .purchase-row {
   display: flex;
   align-items: center;

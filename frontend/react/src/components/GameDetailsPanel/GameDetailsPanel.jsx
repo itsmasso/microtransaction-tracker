@@ -2,7 +2,6 @@ import React from "react";
 import "./GameDetailsPanel.css";
 import { useState } from "react";
 import { useEffect } from "react";
-import Subscriptions from "../Subscriptions/Subscriptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
@@ -250,33 +249,37 @@ const GameDetailsPanel = ({
               <div className="expenses-scroll">
                 <div className="panel-form-container">
                   <h4>Expenses</h4>
-                  <ul>
-                    {expenses.map((exp, idx) => (
-                      <li key={idx} className="expense-item">
-                        <div className="expense-info">
-                          <strong className="expense-name">{exp.name}</strong>
-                          <div className="expense-date">
-                            {new Date(exp.date).toLocaleDateString("en-GB", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                            })}
+                  {expenses.length === 0 ? (
+                    <p>No expenses yet.</p>
+                  ) : (
+                    <ul>
+                      {expenses.map((exp, idx) => (
+                        <li key={idx} className="expense-item">
+                          <div className="expense-info">
+                            <strong className="expense-name">{exp.name}</strong>
+                            <div className="expense-date">
+                              {new Date(exp.date).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="expense-price">
-                          $ {Number(exp.purchaseAmount).toFixed(2)}
-                        </div>
+                          <div className="expense-price">
+                            $ {Number(exp.purchaseAmount).toFixed(2)}
+                          </div>
 
-                        <button
-                          className="delete-expense"
-                          onClick={() => handleDeleteExpense(idx)}
-                        >
-                          <FontAwesomeIcon icon={faXmark} size="m" />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                          <button
+                            className="delete-expense"
+                            onClick={() => handleDeleteExpense(idx)}
+                          >
+                            <FontAwesomeIcon icon={faXmark} size="m" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
@@ -350,30 +353,34 @@ const GameDetailsPanel = ({
               <div className="expenses-scroll">
                 <div className="panel-form-container">
                   <h4>Subscriptions</h4>
-                  <ul>
-                    {subscriptions.map((sub, idx) => (
-                      <li key={idx} className="expense-item">
-                        <div className="expense-info">
-                          <strong className="expense-name">{sub.name}</strong>
-                          <span className="subscription-tag">
-                            {getDaysRemaining(sub.date, sub.recurrence)} days
-                            left
-                          </span>
-                        </div>
+                  {subscriptions.length === 0 ? (
+                    <p>No subscriptions yet.</p>
+                  ) : (
+                    <ul>
+                      {subscriptions.map((sub, idx) => (
+                        <li key={idx} className="expense-item">
+                          <div className="expense-info">
+                            <strong className="expense-name">{sub.name}</strong>
+                            <span className="subscription-tag">
+                              {getDaysRemaining(sub.date, sub.recurrence)} days
+                              left
+                            </span>
+                          </div>
 
-                        <div className="expense-price">
-                          $ {Number(sub.purchaseAmount).toFixed(2)}
-                        </div>
+                          <div className="expense-price">
+                            $ {Number(sub.purchaseAmount).toFixed(2)}
+                          </div>
 
-                        <button
-                          className="delete-expense"
-                          onClick={() => handleDeleteSubscription(idx)}
-                        >
-                          <FontAwesomeIcon icon={faXmark} size="m" />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                          <button
+                            className="delete-expense"
+                            onClick={() => handleDeleteSubscription(idx)}
+                          >
+                            <FontAwesomeIcon icon={faXmark} size="m" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>

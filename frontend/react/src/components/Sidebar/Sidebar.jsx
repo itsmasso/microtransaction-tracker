@@ -3,7 +3,11 @@ import { Link, NavLink } from "react-router";
 import "./Sidebar.css";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGamepad } from "@fortawesome/free-solid-svg-icons";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple } from "@fortawesome/free-solid-svg-icons";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 const Sidebar = () => {
   return (
     <aside>
@@ -25,6 +29,11 @@ const Sidebar = () => {
               `sidebar-button${isActive ? " active" : ""}`
             }
           >
+            <FontAwesomeIcon
+              icon={faGamepad}
+              size="m"
+              className="sidebar-icon"
+            />
             <span>Games</span>
           </NavLink>
           <NavLink
@@ -33,15 +42,25 @@ const Sidebar = () => {
               `sidebar-button${isActive ? " active" : ""}`
             }
           >
+            <FontAwesomeIcon
+              icon={faMoneyCheckDollar}
+              size="m"
+              className="sidebar-icon"
+            />
             <span>Purchases</span>
           </NavLink>
           <NavLink
-            to="/subscriptions"
+            to="/analytics"
             className={({ isActive }) =>
               `sidebar-button${isActive ? " active" : ""}`
             }
           >
-            <span>Subscriptions</span>
+            <FontAwesomeIcon
+              icon={faChartSimple}
+              size="m"
+              className="sidebar-icon"
+            />
+            <span>Statistics</span>
           </NavLink>
           <NavLink
             to="/settings"
@@ -49,6 +68,11 @@ const Sidebar = () => {
               `sidebar-button${isActive ? " active" : ""}`
             }
           >
+            <FontAwesomeIcon
+              icon={faGear}
+              size="m"
+              className="sidebar-icon"
+            />
             <span>Settings</span>
           </NavLink>
         </div>

@@ -1,6 +1,95 @@
 .games {
   padding: 1rem;
 }
+
+.grid{
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+.scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2e323d #171a21;
+}
+
+/* Chrome, Edge, Safari */
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 10px;
+  border: 2px solid #1a1a1a;
+}
+
+.page-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #1d212a;
+  border-radius: 15px;
+  padding: 1rem 1.5rem;
+  color: #ebecee;
+}
+.page-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.image-overlay-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1d212a;
+}
+
+.image-overlay-card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.image-overlay-card img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 80%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.image-overlay-bg-fade {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(to left, #1d212a62 0%, #1d212a 100%);
+  z-index: 1;
+}
+
 .clear-filters-button {
   display: flex;
   gap: 0.35rem;
@@ -19,7 +108,7 @@
   background-color: #1d212a;
   border-radius: 999px;
   width: 400px;
-  padding: 0.25rem 0.3rem; /* Less horizontal padding */
+  padding: 0.25rem 0.3rem;
   height: 45px;
   gap: 0.5rem;
 }

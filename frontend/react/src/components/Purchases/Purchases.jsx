@@ -190,7 +190,7 @@ const Purchases = ({ user }) => {
   }, [filterType]);
   return (
     <div className="purchases">
-      <div className="purchases-search-wrapper">
+      <div className="purchases-header">
         <form className="search-container" onSubmit={handleSearch}>
           <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
           <input
@@ -272,7 +272,7 @@ const Purchases = ({ user }) => {
         )}
       </div>
       <div className="purchases-container">
-        <div className="purchases-header">
+        <div className="purchases-container-header">
           <div className="purchase-col">Game</div>
           <div className="purchase-col">Name</div>
           <div className="purchase-col">Date</div>

@@ -11,8 +11,8 @@ const Navbar = (user) => {
         return "Games";
       case "/purchases":
         return "Purchases";
-      case "/subscriptions":
-        return "Subscriptions"
+      case "/analytics":
+        return "Statistics"
       case "/settings":
         return "Settings";
       default:

@@ -18,6 +18,13 @@ const Dashboard = ({ user }) => {
     setCurrentGame(userGame);
   };
 
+  const totalSubs = games.length
+    ? games.reduce((total, game) => {
+        const subCount = game.subscriptions.length;
+        return total + subCount;
+      }, 0)
+    : null;
+
   const totalSpent = games.length
     ? games.reduce((total, game) => {
         const gameTotal = game.expenses.reduce(
@@ -64,11 +71,11 @@ const Dashboard = ({ user }) => {
     }
   };
 
-const updateUserGames = (gameId) => {
-  setGames((prevGames) =>
-    prevGames.filter((game) => game.gameId._id !== gameId)
-  );
-};
+  const updateUserGames = (gameId) => {
+    setGames((prevGames) =>
+      prevGames.filter((game) => game.gameId._id !== gameId)
+    );
+  };
 
   useEffect(() => {
     if (!query.trim()) {
@@ -109,43 +116,41 @@ const updateUserGames = (gameId) => {
     <div className="dashboard">
       {loading && <p>Loading...</p>}
       <div className="dashboard-top">
-        <div className="dashboard-total-spent">
+        <div className="page-card dashboard-total-spent">
           <h1>${totalSpent}</h1>
           <h3>Total spent</h3>
         </div>
 
-        <div className="dashboard-top-game">
-          <div className="dashboard-top-game-content">
-            {games.length === 0 ? (
-              <p>You have no added games.</p>
-            ) : (
-              <>
-                <img
-                  src={highestSpentGame.gameId.coverUrl}
-                  alt="highest spent game cover"
-                />
-                <div className="dashboard-top-game-fade-overlay" />
-                <div className="dashboard-top-game-content">
-                  <div className="dashboard-top-game-total">
-                    <h1>${topGameTotalExpenses}</h1>
-                    <span>Total spent</span>
-                  </div>
-                  <div className="dashboard-top-game-title">
-                    <h1>{highestSpentGame.gameId.name}</h1>
-                    <span>Highest spent game</span>
-                  </div>
+        <div className="image-overlay-card dashboard-top-game">
+          {games.length === 0 ? (
+            <p>You have no added games.</p>
+          ) : (
+            <>
+              <img
+                src={highestSpentGame.gameId.coverUrl}
+                alt="highest spent game cover"
+              />
+              <div className="image-overlay-bg-fade" />
+              <div className="image-overlay-card-content" style={{marginLeft: 30}}>
+                <div className="dashboard-top-game-total">
+                  <h1>${topGameTotalExpenses}</h1>
+                  <span>Total spent</span>
                 </div>
-              </>
-            )}
-          </div>
+                <div className="dashboard-top-game-title">
+                  <h1>{highestSpentGame.gameId.name}</h1>
+                  <span>Highest spent game</span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-        <div className="dashboard-total-subs">
-          <h1>0</h1>
+        <div className="page-card dashboard-total-subs">
+          <h1 style={{alignSelf: 'center'}}>{totalSubs ?? 0}</h1>
           <h3>Subscriptions</h3>
         </div>
       </div>
-      <div className="dashboard-games">
-        <div className="dashboard-card-header">
+      <div className="page-card">
+        <div className="page-card-header">
           <h2>My Games</h2>
           <form className="dashboard-search-container">
             <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
@@ -157,7 +162,7 @@ const updateUserGames = (gameId) => {
             />
           </form>
         </div>
-        <ul className="dashboard-grid">
+        <ul className="grid">
           {filteredGames.map((userGame) => (
             <li key={userGame.gameId._id}>
               <Gamecard

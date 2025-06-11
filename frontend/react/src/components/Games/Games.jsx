@@ -50,18 +50,25 @@ const Games = ({ user }) => {
   }, [games]);
   return (
     <div className="games">
-      <form onSubmit={handleSearch} className="search-container">
-        <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
-        <input
-          type="text"
-          value={query}
-          placeholder="Search for a game..."
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">Search</button>
-      </form>
-      {loading && <p>Loading...</p>}
-      <ul className="games-grid">
+      <div className="page-card-header" style={{ marginBottom: 20 }}>
+        <form onSubmit={handleSearch} className="search-container">
+          <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
+          <input
+            type="text"
+            value={query}
+            placeholder="Search for a game..."
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button type="submit" className="search-button">
+            Search
+          </button>
+        </form>
+      </div>
+      {loading && <p></p>}
+      {!loading && games.length === 0 && (
+        <p>Search for a game to add to your library.</p>
+      )}
+      <ul className="grid">
         {games.map((game) => (
           <li key={game.igdbId}>
             <Gamecard

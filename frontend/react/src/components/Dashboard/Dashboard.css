@@ -6,81 +6,22 @@
   position: relative;
   gap: 1rem;
 }
-
+.dashboard p{
+color: white;
+}
 .dashboard-top {
   display: flex;
-
   gap: 1rem;
-  height: 8rem;
+  height: 7rem;
 }
-.dashboard-total-spent {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #1d212a;
-  border-radius: 15px;
-  padding: 1rem 1.5rem;
-  color: #ebecee;
-}
-.dashboard-total-subs {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #1d212a;
-  border-radius: 15px;
-  padding: 1rem 1.5rem;
-  color: #ebecee;
-}
+
 .dashboard-total-subs h3 {
   font-weight: 400;
 }
 
 .dashboard-top-game {
-  position: relative;
-  height: 100%;
-  border-radius: 15px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #1d212a;
   flex: 1;
   min-width: 400px;
-}
-
-.dashboard-top-game img {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 80%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.dashboard-top-game-fade-overlay {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 80%;
-  background: linear-gradient(to left, #1d212a00 0%, #1d212a 100%);
-  z-index: 1;
-}
-.dashboard-top-game-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  height: 100%;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
 }
 
 .dashboard-top-game-title {
@@ -138,29 +79,6 @@
   font-size: 1.2rem;
 }
 
-.dashboard-games {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: white;
-  background-color: #1d212a;
-  border-radius: 15px;
-  padding: 1.1rem 1.5rem;
-}
-
-.dashboard-card-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.dashboard-grid {
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
-}
 
 .dashboard-search-container {
   display: flex;
@@ -169,7 +87,7 @@
   background-color: #171a20;
   width: 220px;
   gap: 0.25rem;
-  padding: 0.2rem 1.1rem;
+  padding: 0.5rem 0.5rem;
 }
 
 .dashboard-search-container .search-icon {
