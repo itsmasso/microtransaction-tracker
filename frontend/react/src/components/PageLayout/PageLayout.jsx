@@ -3,7 +3,7 @@ import Sidebar from "../Sidebar/sidebar";
 import Navbar from "../Navbar/Navbar";
 import { Outlet } from "react-router";
 
-import './PageLayout.css'
+import "./PageLayout.css";
 const PageLayout = () => {
   return (
     <div className="layout">
@@ -15,7 +15,9 @@ const PageLayout = () => {
           <Navbar />
         </div>
         <div className="main-content-wrapper">
-          <Outlet /> {/* This renders nested child routes */}
+          <div className="main-content-inner">
+            <Outlet /> {/* This renders nested child routes */}
+          </div>
         </div>
       </div>
     </div>

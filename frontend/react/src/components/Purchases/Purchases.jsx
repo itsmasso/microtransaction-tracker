@@ -4,8 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp} from "@fortawesome/free-solid-svg-icons";
-const Purchases = ({ user }) => {
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { formatDate } from "../../util/DateFormatter";
+import { flattenUserGames, sortItems } from "../../util/ExpenseUtil";
+import { paginate } from "../../util/PaginationUtil";
+import Pagination from "../Pagination/Pagination";
+
+const Purchases = () => {
   const [userGames, setUserGames] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [query, setQuery] = useState("");
@@ -16,52 +21,20 @@ const Purchases = ({ user }) => {
   const [sortOrder, setSortOrder] = useState("desc"); //set asc or desc (ascending or descending)
   const [loading, setLoading] = useState(false);
 
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr);
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    const yyyy = d.getFullYear();
-    return `${mm}-${dd}-${yyyy}`;
-  };
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleClearFilters = () => {
     setQuery("");
     setFilterType("None");
     setUsingFilters(false);
-    const rebuiltItems = userGames.flatMap((game) => {
-      const expenses =
-        game.expenses?.map((expense) => ({
-          ...expense,
-          type: "Expense",
-          gameName: game.gameId.name,
-          gameCoverUrl: game.gameId.coverUrl,
-        })) || [];
-
-      const subs =
-        game.subscriptions?.map((sub) => ({
-          ...sub,
-          type: "Subscription",
-          gameName: game.gameId.name,
-          gameCoverUrl: game.gameId.coverUrl,
-        })) || [];
-
-      return [...expenses, ...subs];
-    });
+    const rebuiltItems = flattenUserGames(userGames);
     setFilteredItems(rebuiltItems);
+    setCurrentPage(1);
   };
 
-  const sortedItems = filteredItems.slice().sort((a, b) => {
-    if (sortType === "date") {
-      return sortOrder === "asc"
-        ? new Date(a.date) - new Date(b.date)
-        : new Date(b.date) - new Date(a.date);
-    } else if (sortType === "purchaseAmount") {
-      return sortOrder === "asc"
-        ? Number(a.purchaseAmount) - Number(b.purchaseAmount)
-        : Number(b.purchaseAmount) - Number(a.purchaseAmount);
-    }
-    return 0;
-  });
+  const sortedItems = sortItems(filteredItems, sortType, sortOrder);
+  const itemsPerPage = 10;
+  const currentItems = paginate(sortedItems, currentPage, itemsPerPage);
 
   const handleSort = (key) => {
     if (sortType === key) {
@@ -85,26 +58,7 @@ const Purchases = ({ user }) => {
           const data = await response.json();
           setUserGames(data.games || []);
 
-          const allItems = (data.games || []).flatMap((game) => {
-            const expenses =
-              game.expenses?.map((expense) => ({
-                ...expense,
-                type: "Expense",
-                gameName: game.gameId.name,
-                gameCoverUrl: game.gameId.coverUrl,
-              })) || [];
-
-            const subscriptions =
-              game.subscriptions?.map((sub) => ({
-                ...sub,
-                type: "Subscription",
-                gameName: game.gameId.name,
-                gameCoverUrl: game.gameId.coverUrl,
-              })) || [];
-
-            return [...expenses, ...subscriptions];
-          });
-
+          const allItems = flattenUserGames(data.games || []);
           setFilteredItems(allItems);
         }
       } catch (err) {
@@ -117,25 +71,7 @@ const Purchases = ({ user }) => {
     fetchUserGames();
   }, []);
   const filterItems = (searchText = query, typeFilter = filterType) => {
-    const allItems = userGames.flatMap((game) => {
-      const expenses =
-        game.expenses?.map((expense) => ({
-          ...expense,
-          type: "Expense",
-          gameName: game.gameId.name,
-          gameCoverUrl: game.gameId.coverUrl,
-        })) || [];
-
-      const subs =
-        game.subscriptions?.map((sub) => ({
-          ...sub,
-          type: "Subscription",
-          gameName: game.gameId.name,
-          gameCoverUrl: game.gameId.coverUrl,
-        })) || [];
-
-      return [...expenses, ...subs];
-    });
+    const allItems = flattenUserGames(userGames);
 
     let results = [];
 
@@ -155,6 +91,7 @@ const Purchases = ({ user }) => {
 
     setFilteredItems(results);
     setUsingFilters(query !== "" || typeFilter !== "None");
+    setCurrentPage(1);
   };
   const handleSearch = (e) => {
     e.preventDefault();
@@ -162,25 +99,7 @@ const Purchases = ({ user }) => {
   };
   useEffect(() => {
     if (filterType === "None" && query === "") {
-      const allItems = userGames.flatMap((game) => {
-        const expenses =
-          game.expenses?.map((expense) => ({
-            ...expense,
-            type: "Expense",
-            gameName: game.gameId.name,
-            gameCoverUrl: game.gameId.coverUrl,
-          })) || [];
-
-        const subs =
-          game.subscriptions?.map((sub) => ({
-            ...sub,
-            type: "Subscription",
-            gameName: game.gameId.name,
-            gameCoverUrl: game.gameId.coverUrl,
-          })) || [];
-
-        return [...expenses, ...subs];
-      });
+      const allItems = flattenUserGames(userGames);
 
       setFilteredItems(allItems);
       setUsingFilters(false);
@@ -253,7 +172,11 @@ const Purchases = ({ user }) => {
                 : handleSort("date")
             }
           >
-            {sortOrder === "asc" ? <FontAwesomeIcon icon={faArrowUp} size="m" /> :  <FontAwesomeIcon icon={faArrowDown} size="m" />}
+            {sortOrder === "asc" ? (
+              <FontAwesomeIcon icon={faArrowUp} size="m" />
+            ) : (
+              <FontAwesomeIcon icon={faArrowDown} size="m" />
+            )}
           </button>
         </div>
         {usingFilters && (
@@ -280,8 +203,8 @@ const Purchases = ({ user }) => {
           <div className="purchase-col">Type</div>
         </div>
         <div className="purchases-list">
-          {sortedItems.length > 0 ? (
-            sortedItems.map((expense, idx) => (
+          {currentItems.length > 0 ? (
+            currentItems.map((expense, idx) => (
               <div className="purchase-row" key={idx}>
                 <div className="purchase-col">
                   <div className="purchase-game-img">
@@ -300,6 +223,11 @@ const Purchases = ({ user }) => {
           ) : (
             <p>No purchases found.</p>
           )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(sortedItems.length / itemsPerPage)}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </div>
       </div>
     </div>
