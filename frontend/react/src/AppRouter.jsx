@@ -35,16 +35,18 @@ const AppRouter = () => {
       setLoading(false);
     }
   }, [location.pathname]);
-
+  const onLogout =()=>{
+    setUser(null);
+  };
   if (loading) return null;
   return (
     <Routes>
       <Route element={<PublicRoute user={user} />}>
         <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register onLogout={onLogout}/>} />
       </Route>
       <Route element={<ProtectedRoute user={user} />}>
-        <Route path="/" element={<PageLayout />}>
+        <Route path="/" element={<PageLayout onLogout={onLogout} />}>
           <Route index element={<Dashboard user={user} />}></Route>
           <Route path="games" element={<Games user={user} />}></Route>
           <Route path="purchases" element={<Purchases />}></Route>

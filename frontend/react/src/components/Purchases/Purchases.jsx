@@ -9,7 +9,7 @@ import { formatDate } from "../../util/DateFormatter";
 import { flattenUserGames, sortItems } from "../../util/ExpenseUtil";
 import { paginate } from "../../util/PaginationUtil";
 import Pagination from "../Pagination/Pagination";
-
+import spinner from "../../assets/spinner.svg";
 const Purchases = () => {
   const [userGames, setUserGames] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -109,6 +109,7 @@ const Purchases = () => {
   }, [filterType]);
   return (
     <div className="purchases">
+      {loading && <img src={spinner} alt="loading image" className="spinner"/>}
       <div className="purchases-header">
         <form className="search-container" onSubmit={handleSearch}>
           <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
@@ -194,42 +195,48 @@ const Purchases = () => {
           </button>
         )}
       </div>
-      <div className="purchases-container">
-        <div className="purchases-container-header">
-          <div className="purchase-col">Game</div>
-          <div className="purchase-col">Name</div>
-          <div className="purchase-col">Date</div>
-          <div className="purchase-col">Amount</div>
-          <div className="purchase-col">Type</div>
-        </div>
-        <div className="purchases-list">
-          {currentItems.length > 0 ? (
-            currentItems.map((expense, idx) => (
-              <div className="purchase-row" key={idx}>
-                <div className="purchase-col">
-                  <div className="purchase-game-img">
-                    <img src={expense.gameCoverUrl} alt="game cover" />
+      {!loading && (
+        <div className="purchases-container">
+          <div className="purchases-container-header">
+            <div className="purchase-col">Game</div>
+            <div className="purchase-col">Name</div>
+            <div className="purchase-col">Date</div>
+            <div className="purchase-col">Amount</div>
+            <div className="purchase-col">Type</div>
+          </div>
+          <div className="purchases-list">
+            {loading ? (
+              <img src={spinner} alt="loading image" />
+            ) : currentItems.length > 0 ? (
+              currentItems.map((expense, idx) => (
+                <div className="purchase-row" key={idx}>
+                  <div className="purchase-col">
+                    <div className="purchase-game-img">
+                      <img src={expense.gameCoverUrl} alt="game cover" />
+                    </div>
+                    <span>{expense.gameName}</span>
                   </div>
-                  <span>{expense.gameName}</span>
+                  <div className="purchase-col">{expense.name}</div>
+                  <div className="purchase-col">{formatDate(expense.date)}</div>
+                  <div className="purchase-col">
+                    ${Number(expense.purchaseAmount).toFixed(2)}
+                  </div>
+                  <div className="purchase-col">{expense.type || "N/A"}</div>
                 </div>
-                <div className="purchase-col">{expense.name}</div>
-                <div className="purchase-col">{formatDate(expense.date)}</div>
-                <div className="purchase-col">
-                  ${Number(expense.purchaseAmount).toFixed(2)}
-                </div>
-                <div className="purchase-col">{expense.type || "N/A"}</div>
-              </div>
-            ))
-          ) : (
-            <p>No purchases found.</p>
-          )}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(sortedItems.length / itemsPerPage)}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
+              ))
+            ) : (
+              <p>No purchases found.</p>
+            )}
+            {!loading && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(sortedItems.length / itemsPerPage)}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

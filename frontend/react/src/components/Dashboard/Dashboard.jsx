@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import GameDetailPanel from "../GameDetailsPanel/GameDetailsPanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
+import spinner from "../../assets/spinner.svg";
 const Dashboard = ({ user }) => {
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
@@ -14,6 +14,7 @@ const Dashboard = ({ user }) => {
   const [gamesLoading, setGamesLoading] = useState(false);
   const [currentGame, setCurrentGame] = useState(null);
   const [query, setQuery] = useState("");
+
   const handleGameCardClick = (userGame) => {
     setCurrentGame(userGame);
   };
@@ -114,69 +115,80 @@ const Dashboard = ({ user }) => {
 
   return (
     <div className="dashboard">
-      {loading && <p>Loading...</p>}
-      <div className="dashboard-top">
-        <div className="page-card dashboard-total-spent">
-          <h1>${totalSpent}</h1>
-          <h3>Total spent</h3>
-        </div>
+      {loading && <img src={spinner} alt="loading image" className="spinner" />}
+      {!loading && (
+        <div className="dashboard-top">
+          <div className="page-card dashboard-total-spent">
+            <h1>${totalSpent}</h1>
+            <h3>Total spent</h3>
+          </div>
 
-        <div className="image-overlay-card dashboard-top-game">
-          {games.length === 0 ? (
-            <p>You have no added games.</p>
-          ) : (
-            <>
-              <img
-                src={highestSpentGame.gameId.coverUrl}
-                alt="highest spent game cover"
-              />
-              <div className="image-overlay-bg-fade" />
-              <div className="image-overlay-card-content" style={{marginLeft: 30}}>
-                <div className="dashboard-top-game-total">
-                  <h1>${topGameTotalExpenses}</h1>
-                  <span>Total spent</span>
+          <div className="image-overlay-card dashboard-top-game">
+            {games.length === 0 ? (
+              <p>You have no added games.</p>
+            ) : (
+              <>
+                <img
+                  src={highestSpentGame.gameId.coverUrl}
+                  alt="highest spent game cover"
+                />
+                <div className="image-overlay-bg-fade" />
+                <div
+                  className="image-overlay-card-content"
+                  style={{ marginLeft: 30 }}
+                >
+                  <div className="dashboard-top-game-total">
+                    <h1>${topGameTotalExpenses}</h1>
+                    <span>Total spent</span>
+                  </div>
+                  <div className="dashboard-top-game-title">
+                    <h1>{highestSpentGame.gameId.name}</h1>
+                    <span>Highest spent game</span>
+                  </div>
                 </div>
-                <div className="dashboard-top-game-title">
-                  <h1>{highestSpentGame.gameId.name}</h1>
-                  <span>Highest spent game</span>
-                </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
+          <div className="page-card dashboard-total-subs">
+            <h1 style={{ alignSelf: "center" }}>{totalSubs ?? 0}</h1>
+            <h3>Subscriptions</h3>
+          </div>
         </div>
-        <div className="page-card dashboard-total-subs">
-          <h1 style={{alignSelf: 'center'}}>{totalSubs ?? 0}</h1>
-          <h3>Subscriptions</h3>
-        </div>
-      </div>
-      <div className="page-card">
-        <div className="page-card-header">
-          <h2>My Games</h2>
-          <form className="dashboard-search-container">
-            <FontAwesomeIcon icon={faSearch} size="m" className="search-icon" />
-            <input
-              type="text"
-              value={query}
-              placeholder="Search for a game..."
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </form>
-        </div>
-        <ul className="grid">
-          {filteredGames.map((userGame) => (
-            <li key={userGame.gameId._id}>
-              <Gamecard
-                user={user}
-                game={userGame.gameId}
-                userGame={userGame}
-                source="dashboard"
-                onClick={() => handleGameCardClick(userGame)}
+      )}
+      {!loading && (
+        <div className="page-card">
+          <div className="page-card-header">
+            <h2>My Games</h2>
+            <form className="dashboard-search-container">
+              <FontAwesomeIcon
+                icon={faSearch}
+                size="m"
+                className="search-icon"
               />
-            </li>
-          ))}
-        </ul>
-      </div>
-      {currentGame && (
+              <input
+                type="text"
+                value={query}
+                placeholder="Search for a game..."
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </form>
+          </div>
+          <ul className="grid">
+            {filteredGames.map((userGame) => (
+              <li key={userGame.gameId._id}>
+                <Gamecard
+                  user={user}
+                  game={userGame.gameId}
+                  userGame={userGame}
+                  source="dashboard"
+                  onClick={() => handleGameCardClick(userGame)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {!loading && currentGame && (
         <GameDetailPanel
           userGame={currentGame}
           onClose={() => {

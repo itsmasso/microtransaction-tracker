@@ -1,56 +1,97 @@
 .login-wrapper {
   min-height: 100vh;
   padding: 10rem 0;
-  background-color: #f9fafb;
+  background-color: #0e1118;
+}
+.or-div {
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  font-size: 0.8rem;
+}
+.or-div::before,
+.or-div::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #303237;
+}
+.or-div span {
+  padding: 0rem 0.5rem;
 }
 .login-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 520px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 .login-card {
   display: flex;
   flex-direction: column;
-  background: white;
+  background-color: #1d212a;
   border-radius: 1rem;
-  overflow: hidden;
+  padding: 2rem;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
-@media (min-width: 1024px) {
-  .login-card {
-    flex-direction: row;
-  }
-}
-.login-right {
+
+.login-top {
   flex: 1;
-  background: linear-gradient(
-  135deg,
-  #ff6b3d 0%,    
-  #ff5e5b 25%, 
-  #ff7b89 55%,  
-  #ffa07a 80%,  
-  #ffd1a1 100%   
-);
-  color: white;
-  padding: 3rem;
+  color: #dfdfdf;
+  gap: 0.8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.login-bot {
+  display: flex;
+  flex-direction: column;
+}
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.input-wrapper input {
+  padding-left: 37px;
+}
+
+.input-wrapper input::placeholder {
+  color: #888;
+}
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+}
 
 .register-link {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 999px;
-  padding: 0.4rem 1.25rem;
+  position: relative;
+  display: inline-block;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  color: #419dd9;
+}
+.register-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #419dd9; /* uses the text color */
+  transition: width 0.3s ease;
 }
 .register-link:hover {
-  transform: scale(1.05);
+  color: #7bc0ee;
+}
+.register-link:hover::after {
+  width: 100%;
+  color: #7bc0ee;
 }
 .login-welcome {
   font-size: 1.875rem;
@@ -60,14 +101,16 @@
 .login-message {
   font-size: 1rem;
   margin-bottom: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
 }
-.login-left {
-  flex: 1;
-  padding: 4rem 3rem;
+.login-message span {
+  color: #888;
 }
 .login-label {
   display: block;
   font-weight: 600;
+  color: #dfdfdf;
 }
 .login-grid {
   display: flex;
@@ -82,16 +125,18 @@
   flex-direction: column;
   gap: 0.25rem;
 }
+
 .login-field h2 {
   font-weight: 500;
 }
-.login-title {
-  font-size: 1.875rem;
-  margin-bottom: 1rem;
-}
+
 .login-input {
-  border: 1px solid #cbd5e1;
+  border: 1px solid #303237;
+  color: #dfdfdf;
   padding: 0.5rem;
+  border-radius: 10px;
+  height: 45px;
+  background-color: #0e1118;
 }
 .full-width {
   width: 100%;
@@ -105,19 +150,19 @@
 }
 .login-submit button {
   width: 100%;
-  background: #ff475f;
+  background: #419dd9;
   color: white;
   padding: 0.75rem;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 .login-submit button:hover {
-  background: #ff949f;
+  background: #5cace2;
 }
 
 .login-submit button:active {
-  background: #e65261;
   transform: scale(0.97);
 }
 .login-submit button:disabled {
@@ -131,12 +176,10 @@
   font-weight: 600;
   text-decoration: none;
 }
-.input-error {
-  border: 2px solid #dc2626;
-}
 
-.input-error-text {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+.google-login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

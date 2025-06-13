@@ -4,7 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import { Outlet } from "react-router";
 
 import "./PageLayout.css";
-const PageLayout = () => {
+const PageLayout = ({onLogout}) => {
   return (
     <div className="layout">
       <div className="sidebar-wrapper">
@@ -12,7 +12,7 @@ const PageLayout = () => {
       </div>
       <div className="layout-right">
         <div className="navbar-wrapper">
-          <Navbar />
+          <Navbar onLogout={onLogout}/>
         </div>
         <div className="main-content-wrapper">
           <div className="main-content-inner">

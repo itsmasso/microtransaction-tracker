@@ -4,8 +4,15 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const RegisterUser = async (req, res) => {
-  const { email } = req.body;
+  const { email, recaptchaToken } = req.body;
   const userData = req.body;
+
+  if (!recaptchaToken) {
+    return res.status(400).json({ message: "reCAPTCHA token missing" });
+  }
+
+  const secretKey = process.env.RECAPTCHA_SECRET;
+  const verificationURL = "https://www.google.com/recaptcha/api/siteverify";
 
   try {
     const existingEmail = await UsersModel.findOne({ email });
@@ -14,6 +21,20 @@ export const RegisterUser = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Email already in use." });
     }
+    const reCaptchaRes = await fetch(verificationURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `secret=${secretKey}&response=${recaptchaToken}`,
+    });
+
+    const data = await reCaptchaRes.json();
+
+    if (!data.success) {
+      return res.status(400).json({ message: "Failed reCAPTCHA verification" });
+    }
+
     if (userData.password) {
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       userData.password = hashedPassword;
@@ -23,19 +44,21 @@ export const RegisterUser = async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
     return res.json({
       success: true,
       message: "Registered successfully!",
       user: newUser,
     });
   } catch (err) {
-    console.error("Failed to register user.");
+    console.error("Failed to register user.", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };

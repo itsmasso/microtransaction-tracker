@@ -1,7 +1,41 @@
-import React from "react";
+import { React, useState, useEffect, useRef } from "react";
 import "./Navbar.css";
-import { useLocation } from "react-router";
-const Navbar = (user) => {
+import { useLocation, useNavigate } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+const Navbar = ({onLogout}) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef();
+  const toggleProfileMenu = () => setIsMenuOpen(!isMenuOpen);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/user/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log("Logged out successfully");
+        onLogout();
+        navigate("/login");
+      } else {
+        console.error("Logout failed:", data.message);
+      }
+    } catch (err) {
+      console.error("Logout error: ", err);
+    }
+  };
   const location = useLocation();
   const pageTitle = (path) => {
     switch (path) {
@@ -12,7 +46,7 @@ const Navbar = (user) => {
       case "/purchases":
         return "Purchases";
       case "/analytics":
-        return "Statistics"
+        return "Statistics";
       case "/settings":
         return "Settings";
       default:
@@ -25,7 +59,20 @@ const Navbar = (user) => {
       <div className="navbar-left">
         <h1>{pageTitle(location.pathname)}</h1>
       </div>
-      <div className="navbar-right">profile</div>
+      <div className="navbar-right">
+        <div className="profile-menu-wrapper" ref={menuRef}>
+          <button className="profile-button" onClick={toggleProfileMenu}>
+            <FontAwesomeIcon icon={faUser} size="2x" />
+          </button>
+          {isMenuOpen && (
+            <div className="profile-dropdown">
+              <button className="logout-btn" onClick={handleLogout}>
+                <FontAwesomeIcon icon={faRightFromBracket} size="m" /> Log out
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
     </nav>
   );
 };

@@ -3,6 +3,10 @@ import "./Login.css";
 import { useNavigate, Link } from "react-router";
 import { useState, useEffect } from "react";
 import { checkAuth } from "../../util/userAuthUtil";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import GoogleButton from "./GoogleButton";
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,10 +37,11 @@ const Login = ({ setUser }) => {
         const userData = await checkAuth();
         setUser(userData);
         navigate("/");
-      } else if (response.status === 401) {
-        if (response.message === "This account does not exist.")
+      }
+      if (response.status === 401) {
+        if (data.message === "This account does not exist.")
           setError((prev) => ({ ...prev, unknownCredentials: true }));
-        else if (response.message === "Invalid password.")
+        else if (data.message === "Invalid password.")
           setError((prev) => ({ ...prev, invalidCredentials: true }));
       } else {
         console.error("Login error:", data.message || "Unexpected error");
@@ -45,41 +50,63 @@ const Login = ({ setUser }) => {
       console.error("Login error:", err);
     }
   };
+
   return (
     <section className="login-wrapper">
       <div className="login-container">
         <section className="login-card">
-          <main className="login-left">
-            <header>
-              <h2 className="login-title">Sign In</h2>
-            </header>
+          <div className="login-top">
+            <h1 className="login-welcome">Welcome Back</h1>
+            <div className="login-message">
+              <span>Don't have an account?</span>
+              <Link to="/register">
+                <p className="register-link">Sign up</p>
+              </Link>
+            </div>
+          </div>
+          <section className="login-bot">
             <form onSubmit={handleSubmit}>
               <fieldset className="login-grid">
                 <div className="login-field">
                   <label htmlFor="email" className="login-label">
                     Email
                   </label>
-                  <input
-                    id="email"
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    className="login-input full-width"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <div className="input-wrapper">
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      size="m"
+                      className="input-icon"
+                    />
+                    <input
+                      id="email"
+                      type="text"
+                      name="email"
+                      placeholder="Email"
+                      className="login-input full-width"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="login-field">
                   <label htmlFor="password" className="login-label">
                     Password
                   </label>
-                  <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    className="login-input full-width"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div className="input-wrapper">
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      size="m"
+                      className="input-icon"
+                    />
+
+                    <input
+                      id="password"
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      className="login-input full-width"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
                   {error.invalidCredentials && (
                     <p className="input-error-text">
                       Invalid email or password.
@@ -93,14 +120,13 @@ const Login = ({ setUser }) => {
                 </button>
               </div>
             </form>
-          </main>
-          <aside className="login-right">
-            <h1 className="login-welcome">Welcome Back</h1>
-            <p className="login-message">Don't have an account?</p>
-            <Link to="/register" className="register-link">
-              Sign up
-            </Link>
-          </aside>
+            <div className="or-div">
+              <span>OR</span>
+            </div>
+            <div className="google-login-button">
+              <GoogleButton></GoogleButton>
+            </div>
+          </section>
         </section>
       </div>
     </section>

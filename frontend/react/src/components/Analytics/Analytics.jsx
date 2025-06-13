@@ -11,7 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import spinner from "../../assets/spinner.svg";
 const Analytics = ({ user }) => {
   ChartJS.register(
     CategoryScale,
@@ -170,62 +170,67 @@ const Analytics = ({ user }) => {
   };
   return (
     <div className="statistics">
-      <div className="statistics-card">
-        <div className="statistics-card-header">
-          <h2>Yearly Transactions</h2>
-          <div className="filter-type-container">
-            <select
-              name="filterByYear"
-              value={selectedYear}
-              onChange={(e) => {
-                setSelectedYear(e.target.value);
-              }}
-            >
-              {getYearList()
-                .sort((a, b) => {
-                  return b - a;
-                })
-                .map((year) => (
-                  <option value={`${year}`}>{year}</option>
-                ))}
-            </select>
+      {loading && <img src={spinner} alt="loading image" className="spinner" />}
+      {!loading && (
+        <div className="statistics-card">
+          <div className="statistics-card-header">
+            <h2>Yearly Transactions</h2>
+            <div className="filter-type-container">
+              <select
+                name="filterByYear"
+                value={selectedYear}
+                onChange={(e) => {
+                  setSelectedYear(e.target.value);
+                }}
+              >
+                {getYearList()
+                  .sort((a, b) => {
+                    return b - a;
+                  })
+                  .map((year) => (
+                    <option value={`${year}`}>{year}</option>
+                  ))}
+              </select>
+            </div>
           </div>
+          <Bar data={expenseData} options={options} />
         </div>
-        <Bar data={expenseData} options={options} />
-      </div>
-      <div className="statistics-page-right">
-        <div className="page-card sub-cost-total">
-          <h1>$0</h1>
-          <span>Spent monthly on subscriptions</span>
-        </div>
-        <div className="page-card active-subs-card">
-          <div className="page-card-header">
-            <h2>Active Subscriptions</h2>
+      )}
+      {!loading && (
+        <div className="statistics-page-right">
+          <div className="page-card sub-cost-total">
+            <h1>$0</h1>
+            <span>Spent monthly on subscriptions</span>
           </div>
-          <div className="active-subscription-card scroll">
-            {getActiveSubscriptions().length === 0 ? (
-              <p>You have no active subscriptions.</p>
-            ) : (
-              getActiveSubscriptions().map((sub) => (
-                <div className="subs-image-overlay-card">
-                  <img src={sub.gameCoverUrl} alt="subscription game cover" />
-                  <div className="subs-image-overlay-bg-fade" />
-                  <div className="subs-image-overlay-card-content">
-                    <div className="sub-days-remaining">
-                      <h2 className="sub-cost">$ {sub.purchaseAmount}</h2>
-                      <span>{sub.timeRemaining} days remaining</span>
-                    </div>
-                    <div className="sub-name">
-                      <h2>{sub.name}</h2>
-                      <span>{sub.gameName}</span>
+          <div className="page-card active-subs-card">
+            <div className="page-card-header">
+              <h2>Active Subscriptions</h2>
+            </div>
+            <div className="active-subscription-card scroll">
+              {getActiveSubscriptions().length === 0 ? (
+                <p>You have no active subscriptions.</p>
+              ) : (
+                getActiveSubscriptions().map((sub) => (
+                  <div className="subs-image-overlay-card">
+                    <img src={sub.gameCoverUrl} alt="subscription game cover" />
+                    <div className="subs-image-overlay-bg-fade" />
+                    <div className="subs-image-overlay-card-content">
+                      <div className="sub-days-remaining">
+                        <h2 className="sub-cost">$ {sub.purchaseAmount}</h2>
+                        <span>{sub.timeRemaining} days remaining</span>
+                      </div>
+                      <div className="sub-name">
+                        <h2>{sub.name}</h2>
+                        <span>{sub.gameName}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

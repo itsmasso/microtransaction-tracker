@@ -3,6 +3,7 @@ import Gamecard from "../Gamecard/Gamecard";
 import "./Games.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import spinner from "../../assets/spinner.svg";
 const Games = ({ user }) => {
   const [games, setGames] = useState([]);
   const [userGames, setUserGames] = useState([]);
@@ -64,7 +65,7 @@ const Games = ({ user }) => {
           </button>
         </form>
       </div>
-      {loading && <p></p>}
+      {loading && <img src={spinner} alt="loading image" className="spinner"/>}
       {!loading && games.length === 0 && (
         <p>Search for a game to add to your library.</p>
       )}
