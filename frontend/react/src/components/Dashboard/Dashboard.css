@@ -69,6 +69,13 @@ color: white;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.dashboard-top-game p{
+
+margin-top: 3rem;
+}
+.dashboard p{
+color: #606972;
+}
 
 .dashboard-total-spent h1 {
   font-size: 2.8rem;
@@ -107,4 +114,8 @@ color: white;
 
 .dashboard-search-container input::placeholder {
   color: #606972;
+}
+
+.dashboard-games{
+min-height: 500px;
 }

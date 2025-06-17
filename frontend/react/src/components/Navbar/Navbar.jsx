@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-const Navbar = ({onLogout}) => {
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+const Navbar = ({ onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
   const toggleProfileMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -36,10 +37,14 @@ const Navbar = ({onLogout}) => {
       console.error("Logout error: ", err);
     }
   };
+
+  const handleSettings = async () =>{
+    navigate('/settings');
+};
   const location = useLocation();
   const pageTitle = (path) => {
     switch (path) {
-      case "/":
+      case "/dashboard":
         return "Dashboard";
       case "/games":
         return "Games";
@@ -66,6 +71,10 @@ const Navbar = ({onLogout}) => {
           </button>
           {isMenuOpen && (
             <div className="profile-dropdown">
+              <button className="logout-btn" onClick={handleSettings}>
+                <FontAwesomeIcon icon={faGear} size="m" /> Settings
+              </button>
+              <hr />
               <button className="logout-btn" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faRightFromBracket} size="m" /> Log out
               </button>

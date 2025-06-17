@@ -176,21 +176,23 @@ const Analytics = ({ user }) => {
           <div className="statistics-card-header">
             <h2>Yearly Transactions</h2>
             <div className="filter-type-container">
-              <select
-                name="filterByYear"
-                value={selectedYear}
-                onChange={(e) => {
-                  setSelectedYear(e.target.value);
-                }}
-              >
-                {getYearList()
-                  .sort((a, b) => {
-                    return b - a;
-                  })
-                  .map((year) => (
-                    <option value={`${year}`}>{year}</option>
-                  ))}
-              </select>
+              {!userGames.length === 0 && (
+                <select
+                  name="filterByYear"
+                  value={selectedYear}
+                  onChange={(e) => {
+                    setSelectedYear(e.target.value);
+                  }}
+                >
+                  {getYearList()
+                    .sort((a, b) => {
+                      return b - a;
+                    })
+                    .map((year) => (
+                      <option value={`${year}`}>{year}</option>
+                    ))}
+                </select>
+              )}
             </div>
           </div>
           <Bar data={expenseData} options={options} />

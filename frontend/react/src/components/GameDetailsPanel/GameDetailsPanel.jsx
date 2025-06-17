@@ -244,7 +244,7 @@ const GameDetailsPanel = ({
                     setNewExpense({ ...newExpense, date: e.target.value })
                   }
                 />
-                <button onClick={handleAddExpense}>Add Expense</button>
+                <button onClick={handleAddExpense} className="blue-button">Add Expense</button>
               </div>
               <div className="expenses-scroll">
                 <div className="panel-form-container">
@@ -345,7 +345,7 @@ const GameDetailsPanel = ({
                   </div>
                 </div>
 
-                <button onClick={handleAddSubscriptions}>
+                <button onClick={handleAddSubscriptions} className="blue-button">
                   Add Subscription
                 </button>
               </div>

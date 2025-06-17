@@ -3,8 +3,7 @@ import "./Register.css";
 import { useNavigate, Link } from "react-router";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const Signup = () => {
-  const navigate = useNavigate();
+const Signup = ({ nextStep, setUser }) => {
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -58,13 +57,40 @@ const Signup = () => {
         return;
       } else {
         console.log("Successfully Registered!");
-        navigate("/login");
+        const userData = data.user;
+        setUser(userData);
+        await sendVerificationCode(userData._id);
+        nextStep();
       }
     } catch (err) {
       console.error("Error checking user info:", err);
     }
   };
-
+  const sendVerificationCode = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/user/send-verification-code`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ userId }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        if (data.message === "Account already verified.")
+          setErrors((prev) => ({ ...prev, accountAlreadyVerified: true }));
+        return;
+      } else {
+        console.log("Verification code sent!");
+      }
+    } catch (err) {
+      console.error("Error sending verification email:", err);
+    }
+  };
   return (
     <section className="login-wrapper">
       <div className="login-container">
@@ -119,7 +145,9 @@ const Signup = () => {
                         setFormData({ ...formData, password: e.target.value })
                       }
                     />
-                    <small className="password-description">Minimum of 8 characters</small>
+                    <small className="password-description">
+                      Minimum of 8 characters
+                    </small>
                     {errors.passwordTooShort && (
                       <p className="input-error-text">
                         Password must be at least 8 characters.
@@ -153,9 +181,13 @@ const Signup = () => {
                 <ReCAPTCHA
                   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                   onChange={(token) => setRecaptchaToken(token)}
-                    className="recaptcha"
+                  className="recaptcha"
                 />
-                <button type="submit" disabled={missingFields}>
+                <button
+                  type="submit"
+                  disabled={missingFields}
+                  className="blue-button"
+                >
                   Signup
                 </button>
                 <div className="login-redirect">

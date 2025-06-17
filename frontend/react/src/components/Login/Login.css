@@ -74,7 +74,7 @@
   position: relative;
   display: inline-block;
   cursor: pointer;
-  color: #419dd9;
+  color: #4297d8;
 }
 .register-link::after {
   content: "";
@@ -83,15 +83,15 @@
   bottom: 0;
   width: 0;
   height: 2px;
-  background-color: #419dd9; /* uses the text color */
+  background-color: #4297d8; /* uses the text color */
   transition: width 0.3s ease;
 }
 .register-link:hover {
-  color: #7bc0ee;
+  color: #62b0ec;
 }
 .register-link:hover::after {
   width: 100%;
-  color: #7bc0ee;
+  color: #62b0ec;
 }
 .login-welcome {
   font-size: 1.875rem;
@@ -145,21 +145,11 @@
   margin-top: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.7rem;
 }
 .login-submit button {
   width: 100%;
-  background: #419dd9;
-  color: white;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.login-submit button:hover {
-  background: #5cace2;
 }
 
 .login-submit button:active {
@@ -172,7 +162,7 @@
 }
 
 .login-link {
-  color: #3b82f6;
+  color: #4297d8;
   font-weight: 600;
   text-decoration: none;
 }
@@ -182,4 +172,57 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 0.9rem;
+  color: #dfdfdf;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background-color: #3a3f4d;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+  background-color: #4aa3ff;
+}
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 4px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox:focus {
+  outline: none;
+  box-shadow: none;
+}
+.forgot-password {
+  border: none;
+  background-color: transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

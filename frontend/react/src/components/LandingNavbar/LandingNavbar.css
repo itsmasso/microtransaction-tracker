@@ -1,0 +1,22 @@
+.landing-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid #2a2d35;
+  background-color: #0e1118;
+}
+
+.landing-logo {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.nav-buttons button {
+  margin-left: 15px;
+}
+
+

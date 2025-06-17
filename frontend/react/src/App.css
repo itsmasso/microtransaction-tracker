@@ -45,11 +45,12 @@
 .page-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+ 
   background-color: #1d212a;
   border-radius: 15px;
   padding: 1rem 1.5rem;
   color: #ebecee;
+  
 }
 .page-card-header {
   display: flex;
@@ -169,4 +170,33 @@
   color: #d84d4d;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+.blue-button {
+  background-color: #4297d8;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.blue-button:hover {
+  background-color: #2a7dbd;
+}
+
+.blue-button-outline {
+  background-color: transparent;
+  border: 1px solid #4297d8;
+  color: #4297d8;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.blue-button-outline:hover {
+  background-color: #4297d828;
 }

@@ -7,9 +7,12 @@ import Purchases from "./components/Purchases/Purchases";
 import Analytics from "./components/Analytics/Analytics";
 import Settings from "./components/Settings/Settings";
 import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
+import SignupWizard from "./components/Register/SignupWizard";
 import PublicRoute from "./util/PublicRoute";
 import ProtectedRoute from "./util/ProtectedRoute";
+import Landing from "./components/Landing/Landing";
+import PublicLayout from "./components/PublicLayout/PublicLayout";
+import ForgotPasswordWizard from "./components/ForgotPassword/ForgotPasswordWizard";
 import { checkAuth } from "./util/userAuthUtil";
 import { Routes, Route, useLocation } from "react-router";
 
@@ -18,7 +21,7 @@ const AppRouter = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const publicPaths = ["/login", "/register"];
+    const publicPaths = ["/login", "/register", "/", "/forgot-password"];
     if (!publicPaths.includes(location.pathname)) {
       const verify = async () => {
         try {
@@ -35,19 +38,24 @@ const AppRouter = () => {
       setLoading(false);
     }
   }, [location.pathname]);
-  const onLogout =()=>{
+  const onLogout = () => {
     setUser(null);
   };
   if (loading) return null;
   return (
     <Routes>
       <Route element={<PublicRoute user={user} />}>
-        <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/register" element={<Register onLogout={onLogout}/>} />
+        <Route path="/" element={<PublicLayout />}>
+          <Route index element={<Landing />} />
+          <Route path="login" element={<Login setUser={setUser} />} />
+          <Route path="register" element={<SignupWizard />} />
+          <Route path="forgot-password" element={<ForgotPasswordWizard />} />
+        </Route>
       </Route>
+
       <Route element={<ProtectedRoute user={user} />}>
         <Route path="/" element={<PageLayout onLogout={onLogout} />}>
-          <Route index element={<Dashboard user={user} />}></Route>
+          <Route path="dashboard" element={<Dashboard user={user} />}></Route>
           <Route path="games" element={<Games user={user} />}></Route>
           <Route path="purchases" element={<Purchases />}></Route>
           <Route path="analytics" element={<Analytics />}></Route>

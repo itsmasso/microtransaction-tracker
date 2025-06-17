@@ -12,10 +12,10 @@ const Sidebar = () => {
   return (
     <aside>
       <div className="sidebar">
-        <div className="sidebar-logo">LOGO</div>
+        <div className="sidebar-logo"><h1>MtxTracker</h1></div>
         <div className="sidebar-nav-links">
           <NavLink
-            to="/"
+            to="/dashboard"
             className={({ isActive }) =>
               `sidebar-button${isActive ? " active" : ""}`
             }

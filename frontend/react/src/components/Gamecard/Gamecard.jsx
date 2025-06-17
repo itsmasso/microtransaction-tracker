@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const Gamecard = ({ user, game, userGame, source, onClick }) => {
   const [gameDetails, setGameDetails] = useState(null);
-  const disableAddCard = userGame ? true : false;
+  const [isDisabled, setIsDisabled] = useState(!!userGame);
   const handleViewGame = async (e) => {
     e.preventDefault();
     if (onClick) {
@@ -15,6 +15,10 @@ const Gamecard = ({ user, game, userGame, source, onClick }) => {
       onClick(userGame ?? gameDetails);
     }
   };
+  useEffect(() => {
+    setIsDisabled(!!userGame);
+  }, [userGame]);
+
   const handleAddGame = async (e) => {
     e.preventDefault();
     console.log("user:", user);
@@ -42,8 +46,8 @@ const Gamecard = ({ user, game, userGame, source, onClick }) => {
       if (response.ok) {
         const newUserGame = data;
         setGameDetails(newUserGame);
+        setIsDisabled(true);
         if (onClick) onClick(newUserGame);
-
         console.log("Game added!", data);
       } else {
         console.error("Server error:", data.message);
@@ -59,26 +63,23 @@ const Gamecard = ({ user, game, userGame, source, onClick }) => {
           <img
             src={game.coverUrl}
             alt={game.name}
-            className={`card-image ${disableAddCard && source==="games" ? "card-image-disabled" : ""}`}
+            className={`card-image ${
+              isDisabled && source === "games" ? "card-image-disabled" : ""
+            }`}
           />
         )}
         {source === "games" ? (
-          !disableAddCard ? (
-            <button className="card-overlay" onClick={handleAddGame}>
-              <FontAwesomeIcon
-                icon={faPlusCircle}
-                className="overlay-add-icon"
-              />
-            </button>
-          ) : (
-            <div className="card-overlay-disabled">
-              <FontAwesomeIcon
-                icon={faCheckCircle}
-                className="overlay-add-icon"
-              />
-            </div>
-          )
+          <div
+            className="card-overlay"
+            onClick={!isDisabled ? handleAddGame : undefined}
+          >
+            <FontAwesomeIcon
+              icon={isDisabled ? faCheckCircle : faPlusCircle}
+              className="overlay-add-icon"
+            />
+          </div>
         ) : null}
+
         {source === "dashboard" && (
           <button className="card-overlay" onClick={handleViewGame}></button>
         )}

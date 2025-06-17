@@ -1,0 +1,43 @@
+.resend-code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #4297d8;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.code-top {
+  margin-bottom: 1rem;
+}
+
+.code-bot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.code-input[type=number]::-webkit-inner-spin-button, 
+.code-input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* Remove spinner for Firefox */
+.code-input[type=number] {
+  -moz-appearance: textfield;
+}
+.envelope-icon{
+width: 40px;
+height: 40px;
+}
+.verify-description{
+text-align: center;
+}
+.verify-description span{
+color: #4297d8;
+}

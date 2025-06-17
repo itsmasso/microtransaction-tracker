@@ -119,13 +119,13 @@ const Dashboard = ({ user }) => {
       {!loading && (
         <div className="dashboard-top">
           <div className="page-card dashboard-total-spent">
-            <h1>${totalSpent}</h1>
+            <h1>${totalSpent ?? 0}</h1>
             <h3>Total spent</h3>
           </div>
 
           <div className="image-overlay-card dashboard-top-game">
             {games.length === 0 ? (
-              <p>You have no added games.</p>
+              <p>Add a game to show your most spent game!</p>
             ) : (
               <>
                 <img
@@ -156,7 +156,7 @@ const Dashboard = ({ user }) => {
         </div>
       )}
       {!loading && (
-        <div className="page-card">
+        <div className="page-card dashboard-games">
           <div className="page-card-header">
             <h2>My Games</h2>
             <form className="dashboard-search-container">
@@ -173,19 +173,23 @@ const Dashboard = ({ user }) => {
               />
             </form>
           </div>
-          <ul className="grid">
-            {filteredGames.map((userGame) => (
-              <li key={userGame.gameId._id}>
-                <Gamecard
-                  user={user}
-                  game={userGame.gameId}
-                  userGame={userGame}
-                  source="dashboard"
-                  onClick={() => handleGameCardClick(userGame)}
-                />
-              </li>
-            ))}
-          </ul>
+          {filteredGames.length === 0 ? (
+            <p>No added games yet.</p>
+          ) : (
+            <ul className="grid">
+              {filteredGames.map((userGame) => (
+                <li key={userGame.gameId._id}>
+                  <Gamecard
+                    user={user}
+                    game={userGame.gameId}
+                    userGame={userGame}
+                    source="dashboard"
+                    onClick={() => handleGameCardClick(userGame)}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
       {!loading && currentGame && (

@@ -10,6 +10,7 @@ import GoogleButton from "./GoogleButton";
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
   const missingFields = !email || !password;
@@ -28,17 +29,22 @@ const Login = ({ setUser }) => {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, rememberMe }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         const userData = await checkAuth();
+        if (!userData.user.isAccountVerified) {
+          setUser(userData);
+          navigate("/register?step=2");
+          return;
+        }
+
         setUser(userData);
-        navigate("/");
-      }
-      if (response.status === 401) {
+        navigate("/dashboard");
+      } else if (response.status === 401) {
         if (data.message === "This account does not exist.")
           setError((prev) => ({ ...prev, unknownCredentials: true }));
         else if (data.message === "Invalid password.")
@@ -49,6 +55,11 @@ const Login = ({ setUser }) => {
     } catch (err) {
       console.error("Login error:", err);
     }
+  };
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    navigate("/forgot-password");
   };
 
   return (
@@ -113,9 +124,28 @@ const Login = ({ setUser }) => {
                     </p>
                   )}
                 </div>
+                <div className="login-options">
+                  <label className="remember-me">
+                    <input
+                      type="checkbox"
+                      name="rememberMe"
+                      className="custom-checkbox"
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    Remember Me
+                  </label>
+
+                  <button className="forgot-password" onClick={handleForgotPassword}>
+                    <p className="register-link">Forgot Password?</p>
+                  </button>
+                </div>
               </fieldset>
               <div className="login-submit">
-                <button type="submit" disabled={missingFields}>
+                <button
+                  type="submit"
+                  disabled={missingFields}
+                  className="blue-button"
+                >
                   Sign in
                 </button>
               </div>

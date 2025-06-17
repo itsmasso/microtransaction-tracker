@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 
 const PublicRoute = ({ user }) => {
-  if (user) return <Navigate to="/" replace />;
+  if (user && user.isAccountVerified) return <Navigate to="/dashboard" replace />;
   return <Outlet />; 
 };
 
