@@ -65,7 +65,25 @@ const Analytics = ({ user }) => {
     console.log(subscriptions);
     return subscriptions;
   };
+  const getMonthlySubTotal = () => {
+    const total = userGames
+      .flatMap((game) => game.subscriptions)
+      .reduce((sum, sub) => {
+        const amount = Number(sub.purchaseAmount);
+        if (isNaN(amount)) return sum;
 
+        switch (sub.recurrence?.toLowerCase()) {
+          case "monthly":
+            return sum + amount;
+          case "yearly":
+            return sum + amount / 12; 
+          default:
+            return sum;
+        }
+      }, 0);
+
+    return total.toFixed(2);
+  };
   useEffect(() => {
     const fetchUserGames = async () => {
       setLoading(true);
@@ -201,7 +219,7 @@ const Analytics = ({ user }) => {
       {!loading && (
         <div className="statistics-page-right">
           <div className="page-card sub-cost-total">
-            <h1>$0</h1>
+            <h1>{getMonthlySubTotal()}</h1>
             <span>Spent monthly on subscriptions</span>
           </div>
           <div className="page-card active-subs-card">

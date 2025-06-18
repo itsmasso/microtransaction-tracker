@@ -21,22 +21,17 @@ const AppRouter = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const publicPaths = ["/login", "/register", "/", "/forgot-password"];
-    if (!publicPaths.includes(location.pathname)) {
-      const verify = async () => {
-        try {
-          const userData = await checkAuth();
-          setUser(userData);
-        } catch {
-          setUser(null);
-        } finally {
-          setLoading(false);
-        }
-      };
-      verify();
-    } else {
-      setLoading(false);
-    }
+    const verify = async () => {
+      try {
+        const userData = await checkAuth();
+        setUser(userData);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    verify();
   }, [location.pathname]);
   const onLogout = () => {
     setUser(null);
@@ -59,7 +54,7 @@ const AppRouter = () => {
           <Route path="games" element={<Games user={user} />}></Route>
           <Route path="purchases" element={<Purchases />}></Route>
           <Route path="analytics" element={<Analytics />}></Route>
-          <Route path="settings" element={<Settings user={user}/>}></Route>
+          <Route path="settings" element={<Settings user={user} />}></Route>
         </Route>
       </Route>
     </Routes>
