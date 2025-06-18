@@ -144,6 +144,7 @@ const Login = ({ setUser }) => {
                   </label>
 
                   <button
+                    type="button"
                     className="forgot-password"
                     onClick={handleForgotPassword}
                   >
