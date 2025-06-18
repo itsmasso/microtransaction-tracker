@@ -167,8 +167,9 @@ const Login = ({ setUser }) => {
             </div>
             <div className="google-login-button">
               <GoogleButton
-                onSuccess={(user) => {
-                  setUser(user);
+                onSuccess={async () => {
+                  const userData = await checkAuth();
+                  setUser(userData);
                   navigate("/dashboard");
                 }}
               />
