@@ -99,7 +99,7 @@ const Dashboard = ({ user }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/get-user-games`,
+          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
           { method: "GET", credentials: "include" }
         );
         if (response.ok) {
