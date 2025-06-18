@@ -166,7 +166,12 @@ const Login = ({ setUser }) => {
               <span>OR</span>
             </div>
             <div className="google-login-button">
-              <GoogleButton></GoogleButton>
+              <GoogleButton
+                onSuccess={(user) => {
+                  setUser(user);
+                  navigate("/dashboard");
+                }}
+              />
             </div>
           </section>
         </section>
