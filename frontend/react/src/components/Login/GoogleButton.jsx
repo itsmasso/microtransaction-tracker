@@ -6,10 +6,14 @@ import "./GoogleButton.css";
 import googleIcon from "../../assets/icons8-google.svg";
 
 const GoogleButton = ({ onSuccess }) => {
+  const onSuccessRef = useRef(() => {});
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+  }, [onSuccess]);
+
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        // Get user info from Google using the access_token
         const resGoogle = await fetch(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -39,13 +43,16 @@ const GoogleButton = ({ onSuccess }) => {
         const data = await res.json();
 
         if (res.ok) {
-          onSuccess(data.user);
+          onSuccessRef.current?.(data.user); 
         } else {
           console.error("Google login failed:", data.message);
         }
       } catch (err) {
         console.error("Error logging in with Google:", err);
       }
+    },
+    onError: () => {
+      console.error("Google login error: onError callback triggered");
     },
   });
 
