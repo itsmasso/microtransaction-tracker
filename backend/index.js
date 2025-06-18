@@ -16,6 +16,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://microtransaction-tracker-ox1ac4g9e-itsmassos-projects.vercel.app",
   "https://microtransaction-tracker.vercel.app",
+  "https://mtxtracker.com",
 ];
 app.use(
   cors({
