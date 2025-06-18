@@ -8,9 +8,19 @@ import googleIcon from "../../assets/icons8-google.svg";
 const GoogleButton = ({ onSuccess }) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const user = jwtDecode(tokenResponse.credential);
-
       try {
+        // Get user info from Google using the access_token
+        const resGoogle = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
+
+        const user = await resGoogle.json();
+
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/user/google-login`,
           {
@@ -18,10 +28,10 @@ const GoogleButton = ({ onSuccess }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include", 
+            credentials: "include",
             body: JSON.stringify({
               email: user.email,
-              googleId: user.sub, 
+              googleId: user.sub,
             }),
           }
         );
@@ -29,8 +39,7 @@ const GoogleButton = ({ onSuccess }) => {
         const data = await res.json();
 
         if (res.ok) {
-          // Login success, call your app's handler
-          onSuccess(data.user); // or setUser(data.user)
+          onSuccess(data.user);
         } else {
           console.error("Google login failed:", data.message);
         }
