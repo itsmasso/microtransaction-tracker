@@ -12,7 +12,11 @@ const PORT = process.env.PORT;
 connectDB();
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173", "https://profile-page-git-main-itsmassos-projects.vercel.app", "https://microtransaction-tracker.vercel.app" ];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://microtransaction-tracker-ox1ac4g9e-itsmassos-projects.vercel.app",
+  "https://microtransaction-tracker.vercel.app",
+];
 app.use(
   cors({
     origin: allowedOrigins,
