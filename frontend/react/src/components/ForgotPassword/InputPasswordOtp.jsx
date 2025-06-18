@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./InputPasswordOtp.css"
+import "./InputPasswordOtp.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope as faRegularEnvelope } from "@fortawesome/free-regular-svg-icons";
 const InputPasswordOtp = ({ email, nextStep }) => {
@@ -15,22 +15,28 @@ const InputPasswordOtp = ({ email, nextStep }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email: email, otp: verificationCode }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email: email, otp: verificationCode }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.message === "Invalid code.")
-          setErrors((prev) => ({ ...prev, invalidCode: true }));
-        else if (data.message === "Verification code expired.")
-          setErrors((prev) => ({ ...prev, verificationCodeExpired: true }));
+        console.log("OTP verification error:", data.message);
+
+        if (data.message === "Invalid OTP") {
+          setErrors({ invalidCode: true, verificationCodeExpired: false });
+        } else if (data.message === "OTP Expired") {
+          setErrors({ invalidCode: false, verificationCodeExpired: true });
+        }
         return;
       } else {
         console.log("Valid code. Proceeding to password reset.");
@@ -71,7 +77,13 @@ const InputPasswordOtp = ({ email, nextStep }) => {
                       : ""
                   }`}
                   value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
+                  onChange={(e) => {
+                    setVerificationCode(e.target.value);
+                    setErrors({
+                      invalidCode: false,
+                      verificationCodeExpired: false,
+                    });
+                  }}
                 />
                 {errors.invalidCode ? (
                   <p className="input-error-text">Invalid verification code.</p>
