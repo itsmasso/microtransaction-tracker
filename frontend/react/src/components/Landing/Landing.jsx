@@ -1,5 +1,8 @@
 import "./Landing.css";
-
+import gamesImage from "../../assets/games-library.png";
+import transactionsImage from "../../assets/my-purchases.png";
+import trendsImage from "../../assets/trends.png";
+import gameCollageBG from "../../assets/game-collage.webp";
 import { useNavigate } from "react-router";
 const Landing = () => {
   const navigate = useNavigate();
@@ -8,6 +11,15 @@ const Landing = () => {
   };
   return (
     <div className="landing">
+      <div className="fade-background-wrapper">
+        <img
+          src={gameCollageBG}
+          alt="Fading Background"
+          className="background-fade-img"
+        />
+    <div className="image-tint" />
+        <div className="fade-overlay" />
+      </div>
       {/* Hero Section */}
 
       <section className="landing-body">
@@ -17,7 +29,10 @@ const Landing = () => {
             Log your games, track your playtime, subscriptions, and
             microtransactions. Analyze your gaming habits with ease.
           </p>
-          <button className="blue-button get-started-button" onClick={handleGetStartedButton}>
+          <button
+            className="blue-button get-started-button"
+            onClick={handleGetStartedButton}
+          >
             Get Started Free
           </button>
         </section>
@@ -26,36 +41,40 @@ const Landing = () => {
           <div className="site-description">
             <h3>What is Mtx Tracker?</h3>
             <p>
-              Log your games, track your playtime, subscriptions, and
-              microtransactions.
+              MTX Tracker is a free website that helps you monitor your gaming
+              spending habits by letting you log games, add purchases, and track
+              active subscriptions.
             </p>
           </div>
           <div className="feature-card">
-            <img src="" alt="img" />
+            <img src={gamesImage} alt="games library img" />
             <div>
-              <h3>Favorite Your Games</h3>
+              <h3>Track Expenses & Subscriptions</h3>
               <p>
-                Mark your top games and build your personal gaming collection.
+                Add games to your library and start tracking your spending. Each
+                game acts as a hub for your expenses and subscriptions.
               </p>
             </div>
           </div>
 
           <div className="feature-card">
             <div>
-              <h3>Favorite Your Games</h3>
+              <h3>View Your Transactions</h3>
               <p>
-                Mark your top games and build your personal gaming collection.
+                Browse all of your microtransactions in one place. Search,
+                filter, and sort your expenses by game or type.
               </p>
             </div>
-            <img src="" alt="img" />
+            <img src={transactionsImage} alt="user transactions img" />
           </div>
 
           <div className="feature-card">
-            <img src="" alt="img" />
+            <img src={trendsImage} alt="user spending graphs img" />
             <div>
-              <h3>Favorite Your Games</h3>
+              <h3>Visualize Your Spending</h3>
               <p>
-                Mark your top games and build your personal gaming collection.
+                Explore your trends with monthly breakdowns. Find out where your
+                money’s going and which games take the most.
               </p>
             </div>
           </div>

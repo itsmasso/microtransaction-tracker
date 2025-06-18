@@ -59,7 +59,7 @@ const AppRouter = () => {
           <Route path="games" element={<Games user={user} />}></Route>
           <Route path="purchases" element={<Purchases />}></Route>
           <Route path="analytics" element={<Analytics />}></Route>
-          <Route path="settings" element={<Settings />}></Route>
+          <Route path="settings" element={<Settings user={user}/>}></Route>
         </Route>
       </Route>
     </Routes>

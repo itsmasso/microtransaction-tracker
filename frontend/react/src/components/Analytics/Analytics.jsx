@@ -176,7 +176,7 @@ const Analytics = ({ user }) => {
           <div className="statistics-card-header">
             <h2>Yearly Transactions</h2>
             <div className="filter-type-container">
-              {!userGames.length === 0 && (
+              {userGames.length > 0 && (
                 <select
                   name="filterByYear"
                   value={selectedYear}

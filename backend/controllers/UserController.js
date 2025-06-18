@@ -1,7 +1,10 @@
 import UsersModel from "../models/Users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sendPasswordResetEmail, sendVerificationEmail } from "../utils/emailer.js";
+import {
+  sendPasswordResetEmail,
+  sendVerificationEmail,
+} from "../utils/emailer.js";
 export const RegisterUser = async (req, res) => {
   const { email, password, recaptchaToken } = req.body;
 
@@ -70,7 +73,9 @@ export const Login = async (req, res) => {
         .json({ success: false, message: "Invalid password." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: rememberMe ? '30d' : '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: rememberMe ? "30d" : "1h",
+    });
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -191,13 +196,15 @@ export const verifyEmail = async (req, res) => {
 };
 
 //send password reset email
-export const sendResetPassword = async (req, res) =>{
-   try {
-    const { email} = req.body;
-    const user = await UsersModel.findOne({ email});
-    if(!user){
+export const sendResetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await UsersModel.findOne({ email });
+    if (!user) {
       console.error("User not found.");
-       return res.status(404).json({success: false, message: "User not found."});
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
     const otp = String(Math.floor(100000 + Math.random() * 900000));
     user.resetOtp = otp;
@@ -281,6 +288,100 @@ export const resetPassword = async (req, res) => {
     return res.json({
       success: true,
       message: "Password has been reset successfully!",
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+export const changeEmail = async (req, res) => {
+  const { userId, newEmail } = req.body;
+
+  if (!newEmail) {
+    return res.status(400).json({
+      success: false,
+      message: "Email is required",
+    });
+  }
+
+  try {
+    const existingEmail = await UsersModel.findOne({ newEmail });
+    if (existingEmail) {
+      return res
+        .status(409)
+        .json({ success: false, message: "Email already in use." });
+    }
+
+    const user = await UsersModel.findOne({ userId });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
+
+    user.email = newEmail;
+
+    await user.save();
+    return res.json({
+      success: true,
+      message: "Email successfully changed.",
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const deleteAccount = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const user = await UsersModel.findByIdAndDelete(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
+
+    return res.json({
+      success: true,
+      message: "Successfully deleted account.",
+    });
+  } catch (err) {
+    console.error("Error deleting account:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+export const changePassword = async (req, res) => {
+  const { userId, passwordInput, newPassword } = req.body;
+
+  if (!passwordInput || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Current password and new password are required",
+    });
+  }
+
+  try {
+    const user = await UsersModel.findOne({ userId });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
+    }
+    const isPasswordMatching = await bcrypt.compare(
+      passwordInput,
+      user.password
+    );
+    if (!isPasswordMatching) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid password." });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    await user.save();
+    return res.json({
+      success: true,
+      message: "Password has been updated successfully!",
     });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });

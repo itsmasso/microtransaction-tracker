@@ -5,6 +5,8 @@
   padding: 20px 40px;
   border-bottom: 1px solid #2a2d35;
   background-color: #0e1118;
+  position: relative;
+  z-index: 10;
 }
 
 .landing-logo {
@@ -18,5 +20,3 @@
 .nav-buttons button {
   margin-left: 15px;
 }
-
-

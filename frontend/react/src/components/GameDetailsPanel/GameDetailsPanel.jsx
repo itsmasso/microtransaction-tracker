@@ -29,10 +29,10 @@ const GameDetailsPanel = ({
     recurrence: "monthly",
   });
 
-  const totalSpent = expenses.reduce(
-    (sum, expense) => sum + Number(expense.purchaseAmount),
-    0
-  );
+  const totalSpent =
+    expenses.reduce((sum, expense) => sum + Number(expense.purchaseAmount), 0) +
+    subscriptions.reduce((sum, sub) => sum + Number(sub.purchaseAmount), 0);
+
   const formatDateUTC = (isoDateStr) => {
     const date = new Date(isoDateStr);
     return date.toLocaleDateString("en-US", {
@@ -244,7 +244,9 @@ const GameDetailsPanel = ({
                     setNewExpense({ ...newExpense, date: e.target.value })
                   }
                 />
-                <button onClick={handleAddExpense} className="blue-button">Add Expense</button>
+                <button onClick={handleAddExpense} className="blue-button">
+                  Add Expense
+                </button>
               </div>
               <div className="expenses-scroll">
                 <div className="panel-form-container">
@@ -345,7 +347,10 @@ const GameDetailsPanel = ({
                   </div>
                 </div>
 
-                <button onClick={handleAddSubscriptions} className="blue-button">
+                <button
+                  onClick={handleAddSubscriptions}
+                  className="blue-button"
+                >
                   Add Subscription
                 </button>
               </div>

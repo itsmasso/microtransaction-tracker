@@ -28,11 +28,15 @@ const Dashboard = ({ user }) => {
 
   const totalSpent = games.length
     ? games.reduce((total, game) => {
-        const gameTotal = game.expenses.reduce(
+        const expenseTotal = game.expenses.reduce(
           (sum, expense) => sum + Number(expense.purchaseAmount),
           0
         );
-        return total + gameTotal;
+        const subsTotal = game.subscriptions.reduce(
+          (sum, sub) => sum + Number(sub.purchaseAmount),
+          0
+        );
+        return total + expenseTotal + subsTotal;
       }, 0)
     : null;
 

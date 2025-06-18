@@ -3,7 +3,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      &copy; 2025 GameTrackr. All rights reserved.
+      &copy; 2025 MtxTracker. All rights reserved.
     </footer>
   );
 };
