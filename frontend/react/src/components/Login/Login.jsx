@@ -23,14 +23,17 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password, rememberMe }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, password, rememberMe }),
+        }
+      );
 
       const data = await response.json();
 
@@ -96,6 +99,11 @@ const Login = ({ setUser }) => {
                       className="login-input full-width"
                       onChange={(e) => setEmail(e.target.value)}
                     />
+                    {error.unknownCredentials && (
+                      <p className="input-error-text">
+                        Account does not exist.
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="login-field">
@@ -135,7 +143,10 @@ const Login = ({ setUser }) => {
                     Remember Me
                   </label>
 
-                  <button className="forgot-password" onClick={handleForgotPassword}>
+                  <button
+                    className="forgot-password"
+                    onClick={handleForgotPassword}
+                  >
                     <p className="register-link">Forgot Password?</p>
                   </button>
                 </div>
