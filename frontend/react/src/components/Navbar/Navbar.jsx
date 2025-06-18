@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-const Navbar = ({ onLogout }) => {
+const Navbar = ({ onLogout, user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
   const toggleProfileMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -21,10 +21,13 @@ const Navbar = ({ onLogout }) => {
   }, []);
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
       const data = await response.json();
       if (data.success) {
         console.log("Logged out successfully");
@@ -38,9 +41,9 @@ const Navbar = ({ onLogout }) => {
     }
   };
 
-  const handleSettings = async () =>{
-    navigate('/settings');
-};
+  const handleSettings = async () => {
+    navigate("/settings");
+  };
   const location = useLocation();
   const pageTitle = (path) => {
     switch (path) {
@@ -67,7 +70,11 @@ const Navbar = ({ onLogout }) => {
       <div className="navbar-right">
         <div className="profile-menu-wrapper" ref={menuRef}>
           <button className="profile-button" onClick={toggleProfileMenu}>
-            <FontAwesomeIcon icon={faUser} size="2x" />
+            {user?.picture ? (
+              <img src={user.picture} alt="Profile" className="profile-img" />
+            ) : (
+              <FontAwesomeIcon icon={faUser} size="2x" />
+            )}
           </button>
           {isMenuOpen && (
             <div className="profile-dropdown">

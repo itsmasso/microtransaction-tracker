@@ -57,11 +57,14 @@ const Settings = ({ user }) => {
     });
     if (emailHasError) return;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/user/change-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user._id, newEmail: newEmail }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/change-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user._id, newEmail: newEmail }),
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         setEmail(newEmail);
@@ -124,11 +127,14 @@ const Settings = ({ user }) => {
       "Are you sure you want to delete your account?"
     );
     if (!confirmDelete) return;
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/delete-account`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user._id }),
-    });
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/user/delete-account`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user._id }),
+      }
+    );
 
     if (res.ok) {
       navigate("/login");

@@ -13,6 +13,7 @@ import {
     changeEmail,
 deleteAccount,
 changePassword,
+GoogleLogin,
 } from "../controllers/UserController.js";
 const router = express.Router();
 
@@ -27,5 +28,6 @@ router.post("/verify-otp", verifyOtp);
 router.post("/send-reset-otp", sendResetPassword);
 router.post("/change-email", changeEmail);
 router.post("/change-password", changePassword);
-router.delete('/delete-account', deleteAccount);
+router.post('/delete-account', deleteAccount);
+router.post("/google-login", GoogleLogin);
 export default router;

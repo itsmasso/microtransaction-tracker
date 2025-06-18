@@ -49,7 +49,7 @@ const AppRouter = () => {
       </Route>
 
       <Route element={<ProtectedRoute user={user} />}>
-        <Route path="/" element={<PageLayout onLogout={onLogout} />}>
+        <Route path="/" element={<PageLayout onLogout={onLogout} user={user} />}>
           <Route path="dashboard" element={<Dashboard user={user} />}></Route>
           <Route path="games" element={<Games user={user} />}></Route>
           <Route path="purchases" element={<Purchases />}></Route>

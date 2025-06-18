@@ -1,23 +1,48 @@
-import { useGoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
+import { useGoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import "./GoogleButton.css"; 
-import googleIcon from "../../assets/icons8-google.svg"
+import "./GoogleButton.css";
+import googleIcon from "../../assets/icons8-google.svg";
 
 const GoogleButton = ({ onSuccess }) => {
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
+    onSuccess: async (tokenResponse) => {
       const user = jwtDecode(tokenResponse.credential);
-      console.log(user);
-      onSuccess(user);
+
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/user/google-login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", 
+            body: JSON.stringify({
+              email: user.email,
+              googleId: user.sub, 
+            }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (res.ok) {
+          // Login success, call your app's handler
+          onSuccess(data.user); // or setUser(data.user)
+        } else {
+          console.error("Google login failed:", data.message);
+        }
+      } catch (err) {
+        console.error("Error logging in with Google:", err);
+      }
     },
-    onError: () => console.log('Login Failed'),
   });
 
   return (
     <button className="google-button" onClick={() => login()}>
-      <img src={googleIcon} alt="google icon" className='google-icon' />
+      <img src={googleIcon} alt="google icon" className="google-icon" />
       <span>Sign in with Google</span>
     </button>
   );
