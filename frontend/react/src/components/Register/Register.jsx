@@ -40,7 +40,7 @@ const Signup = ({ nextStep, setUser }) => {
     if (emailHasError || passwordMismatchError || passwordTooShort) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/user/register`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Signup = ({ nextStep, setUser }) => {
   const sendVerificationCode = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/user/send-verification-code`,
+        `${import.meta.env.VITE_API_URL}/user/send-verification-code`,
         {
           method: "POST",
           headers: {

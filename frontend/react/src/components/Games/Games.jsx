@@ -17,7 +17,7 @@ const Games = ({ user }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/games/search?query=${encodeURIComponent(query)}`
+        `${import.meta.env.VITE_API_URL}/games/search?query=${encodeURIComponent(query)}`
       );
       if (!response.ok) throw new Error("Failed to fetch games.");
       const data = await response.json();
@@ -34,7 +34,7 @@ const Games = ({ user }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/games/get-user-games`,
+          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
           { method: "GET", credentials: "include" }
         );
         if (response.ok) {

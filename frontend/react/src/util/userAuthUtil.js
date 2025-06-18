@@ -1,6 +1,6 @@
 export const checkAuth = async () => {
   try {
-    const response = await fetch("http://localhost:5000/user/get-user", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/get-user`, {
       method: "GET",
       credentials: "include",
     });

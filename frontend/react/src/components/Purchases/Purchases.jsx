@@ -50,7 +50,7 @@ const Purchases = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/games/get-user-games`,
+          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
           { method: "GET", credentials: "include" }
         );
 

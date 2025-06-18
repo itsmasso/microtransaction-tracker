@@ -99,7 +99,7 @@ const Dashboard = ({ user }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/games/get-user-games`,
+          `${import.meta.env.VITE_API_URL}/get-user-games`,
           { method: "GET", credentials: "include" }
         );
         if (response.ok) {

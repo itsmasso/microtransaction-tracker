@@ -47,7 +47,7 @@ const GameDetailsPanel = ({
 
     try {
       const response = await fetch(
-        "http://localhost:5000/games/update-game-expense",
+        `${import.meta.env.VITE_API_URL}/games/update-game-expense`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ const GameDetailsPanel = ({
   const handleDeleteExpense = async (index) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/games/delete-game-expense/${userGame.gameId._id}/${index}`,
+        `${import.meta.env.VITE_API_URL}/games/delete-game-expense/${userGame.gameId._id}/${index}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -104,7 +104,7 @@ const GameDetailsPanel = ({
 
     try {
       const response = await fetch(
-        "http://localhost:5000/games/update-subscription",
+        `${import.meta.env.VITE_API_URL}/games/update-subscription`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -137,7 +137,7 @@ const GameDetailsPanel = ({
   const handleDeleteSubscription = async (index) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/games/delete-subscription/${userGame.gameId._id}/${index}`,
+        `${import.meta.env.VITE_API_URL}/games/delete-subscription/${userGame.gameId._id}/${index}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -161,7 +161,7 @@ const GameDetailsPanel = ({
   const handleDeleteGame = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/games/delete-user-game`,
+        `${import.meta.env.VITE_API_URL}/games/delete-user-game`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

@@ -30,7 +30,7 @@ const SetNewPassword = ({ email }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user/reset-password`,
+        `${import.meta.env.VITE_API_URL}/user/reset-password`,
         {
           method: "POST",
           headers: {

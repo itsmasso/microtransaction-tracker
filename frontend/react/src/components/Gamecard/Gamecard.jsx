@@ -25,7 +25,7 @@ const Gamecard = ({ user, game, userGame, source, onClick }) => {
     console.log("game:", game);
 
     try {
-      const response = await fetch(`http://localhost:5000/games/add-game`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/games/add-game`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ const GmailConnected = () => {
     const sync = async () => {
       try {
         // 1. Save game preferences
-        await fetch("http://localhost:5000/games/update-user-game", {
+        await fetch(`${import.meta.env.VITE_API_URL}/games/update-user-game`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -39,7 +39,7 @@ const GmailConnected = () => {
 
         // 2. Fetch Gmail receipts
         const res = await fetch(
-          `http://localhost:5000/gmail/emails?accessToken=${accessToken}&refreshToken=${refreshToken}&email=${encodeURIComponent(receiptEmail)}`,
+          `${import.meta.env.VITE_API_URL}/gmail/emails?accessToken=${accessToken}&refreshToken=${refreshToken}&email=${encodeURIComponent(receiptEmail)}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

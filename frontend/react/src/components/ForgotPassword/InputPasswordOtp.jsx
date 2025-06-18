@@ -15,7 +15,7 @@ const InputPasswordOtp = ({ email, nextStep }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/user/verify-otp`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

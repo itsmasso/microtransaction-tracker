@@ -15,7 +15,7 @@ const InputEmail = ({nextStep, setParentEmail}) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user/send-reset-otp`,
+        `${import.meta.env.VITE_API_URL}user/send-reset-otp`,
         {
           method: "POST",
           headers: {
