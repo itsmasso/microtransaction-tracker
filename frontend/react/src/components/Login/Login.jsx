@@ -12,7 +12,6 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
   const missingFields = !email || !password;
 
   const [error, setError] = useState({
@@ -48,9 +47,9 @@ const Login = ({ setUser }) => {
         setUser(userData);
         navigate("/dashboard");
       } else if (response.status === 401) {
-        if (data.message === "This account does not exist.")
+        if (data.message === "This account does not exist.") {
           setError((prev) => ({ ...prev, unknownCredentials: true }));
-        else if (data.message === "Invalid password.")
+        } else if (data.message === "Invalid password.")
           setError((prev) => ({ ...prev, invalidCredentials: true }));
       } else {
         console.error("Login error:", data.message || "Unexpected error");

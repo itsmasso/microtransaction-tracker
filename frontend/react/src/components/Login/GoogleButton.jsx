@@ -25,7 +25,7 @@ const GoogleButton = ({ onSuccess }) => {
         );
 
         const user = await resGoogle.json();
-
+        console.log("API URL:", import.meta.env.VITE_API_URL);
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/user/google-login`,
           {
@@ -44,7 +44,7 @@ const GoogleButton = ({ onSuccess }) => {
         const data = await res.json();
 
         if (res.ok) {
-          onSuccessRef.current?.(data.user); 
+          onSuccessRef.current?.(data.user);
         } else {
           console.error("Google login failed:", data.message);
         }
