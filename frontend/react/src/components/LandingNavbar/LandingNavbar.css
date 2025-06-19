@@ -18,5 +18,24 @@
   cursor: pointer;
 }
 .nav-buttons button {
-  margin-left: 15px;
+  margin-left: 10px;
+}
+
+@media (max-width: 480px) {
+  .landing-navbar {
+    padding: 1.5rem 1rem;
+  }
+  .landing-logo {
+    font-size: 1.5rem;
+    padding: 0.2rem 0.6rem;
+  }
+  .nav-buttons {
+    gap: 0.2rem;
+  }
+  .blue-button,
+  .blue-button-outline {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+  }
+
 }

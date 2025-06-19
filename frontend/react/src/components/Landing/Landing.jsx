@@ -17,7 +17,7 @@ const Landing = () => {
           alt="Fading Background"
           className="background-fade-img"
         />
-    <div className="image-tint" />
+        <div className="image-tint" />
         <div className="fade-overlay" />
       </div>
       {/* Hero Section */}
@@ -58,6 +58,7 @@ const Landing = () => {
           </div>
 
           <div className="feature-card">
+            <img src={transactionsImage} alt="user transactions img" />
             <div>
               <h3>View Your Transactions</h3>
               <p>
@@ -65,7 +66,6 @@ const Landing = () => {
                 filter, and sort your expenses by game or type.
               </p>
             </div>
-            <img src={transactionsImage} alt="user transactions img" />
           </div>
 
           <div className="feature-card">

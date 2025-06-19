@@ -113,3 +113,36 @@
     width: 90vw;
   }
 }
+
+@media (max-width: 480px) {
+  .landing-body {
+    width: 100vw;
+    padding: 2rem 2rem;
+  }
+  .feature-card {
+    flex-direction: column;
+  }
+  .feature-card img {
+    width: 100%;
+  }
+
+  .feature-card div h3 {
+    font-size: 24px;
+  }
+  .feature-card div p {
+    font-size: 18px;
+  }
+  .hero h1 {
+    font-size: 36px;
+  }
+  .hero p {
+    font-size: 18px;
+  }
+  .get-started-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+  .fade-background-wrapper img {
+    object-position: center center;
+  }
+}

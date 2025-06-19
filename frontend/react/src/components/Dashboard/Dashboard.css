@@ -142,3 +142,78 @@
     display: none !important;
   }
 }
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 0.5rem 0.2rem;
+    gap: 0.5rem;
+  }
+  .dashboard-top-cards {
+    flex-direction: column;
+    gap: 0.5rem;
+    height: auto;
+  }
+  .dashboard-top-game {
+    min-width: 100%;
+    padding: 0.5rem 0;
+  }
+  .dashboard-top-game-title {
+    font-size: 1.2rem;
+    margin-left: 0;
+    align-items: flex-start;
+  }
+  .dashboard-top-game-title h1 {
+    font-size: 1.1rem;
+  }
+  .dashboard-top-game-total h1 {
+    font-size: 1.5rem;
+  }
+  .dashboard-total-subs h3,
+  .dashboard-top-game-total span,
+  .dashboard-total-spent h3 {
+    font-size: 0.9rem;
+  }
+  .dashboard-total-spent h1 {
+    font-size: 2rem;
+  }
+  .dashboard-search-container {
+    width: 100%;
+    padding: 0.3rem 0.3rem;
+    font-size: 0.9rem;
+  }
+  .dashboard-games {
+    min-height: 300px;
+  }
+  .top-game-content {
+    margin-left: 0;
+  }
+  .dashboard-search-container input {
+    font-size: 0.8rem;
+  }
+  .dashboard-search-container .search-icon {
+    font-size: 1rem;
+  }
+  .dashboard-search-container input::placeholder {
+    font-size: 0.8rem;
+  }
+  .page-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .page-card-header h2 {
+    order: 0;
+    font-size: 1.1rem;
+  }
+  .dashboard-search-container {
+    order: 1;
+    width: 100%;
+    margin-top: 0.2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+}

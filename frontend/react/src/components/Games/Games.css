@@ -3,7 +3,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
- 
 }
 
 .games-grid {
@@ -14,8 +13,19 @@
   padding: 2rem;
   justify-content: flex-start;
 }
-.games p{
-color: #61656e;
-padding: 1rem;
-
+.games p {
+  color: #61656e;
+  padding: 1rem;
+}
+@media (max-width: 480px) {
+   .search-container {
+    width: 100%;
+    padding: 0.3rem 0.2rem;
+    box-sizing: border-box;
+  }
+  .search-container input {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 0.4rem 0.6rem;
+  }
 }

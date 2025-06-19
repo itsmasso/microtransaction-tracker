@@ -51,7 +51,18 @@
   .layout-right {
     margin-left: 200px;
   }
-.navbar-wrapper{
-width: calc(100% - 200px);
+  .navbar-wrapper {
+    width: calc(100% - 200px);
+  }
 }
+@media (max-width: 480px) {
+  .sidebar-wrapper {
+    width: 60px;
+  }
+  .layout-right {
+    margin-left: 60px;
+  }
+  .navbar-wrapper {
+    width: calc(100% - 60px);
+  }
 }

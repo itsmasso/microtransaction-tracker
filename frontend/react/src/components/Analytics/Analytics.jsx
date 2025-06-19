@@ -76,7 +76,7 @@ const Analytics = ({ user }) => {
           case "monthly":
             return sum + amount;
           case "yearly":
-            return sum + amount / 12; 
+            return sum + amount / 12;
           default:
             return sum;
         }
@@ -192,7 +192,9 @@ const Analytics = ({ user }) => {
       {!loading && (
         <div className="statistics-card">
           <div className="statistics-card-header">
-            <h2>Yearly Transactions</h2>
+            <div>
+              <h2>Yearly Transactions</h2>
+            </div>
             <div className="filter-type-container">
               {userGames.length > 0 && (
                 <select

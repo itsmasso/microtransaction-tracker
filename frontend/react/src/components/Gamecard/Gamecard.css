@@ -76,3 +76,16 @@
     font-size: 18px;
   }
 }
+@media (max-width: 480px) {
+  .card-container {
+    width: 100%; 
+    height: 15rem; 
+    gap: 0.3rem;
+  }
+  .card-title {
+    font-size: 0.95rem;
+  }
+  .overlay-add-icon {
+    font-size: 1.7rem;
+  }
+}
