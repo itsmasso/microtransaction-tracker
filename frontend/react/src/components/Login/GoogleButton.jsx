@@ -25,7 +25,6 @@ const GoogleButton = ({ onSuccess }) => {
         );
 
         const user = await resGoogle.json();
-        console.log("API URL:", import.meta.env.VITE_API_URL);
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/user/google-login`,
           {
