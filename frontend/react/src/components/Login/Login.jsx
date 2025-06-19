@@ -99,12 +99,10 @@ const Login = ({ setUser }) => {
                       className="login-input full-width"
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    {error.unknownCredentials && (
-                      <p className="input-error-text">
-                        Account does not exist.
-                      </p>
-                    )}
                   </div>
+                  {error.unknownCredentials && (
+                    <p className="input-error-text">Account does not exist.</p>
+                  )}
                 </div>
                 <div className="login-field">
                   <label htmlFor="password" className="login-label">
