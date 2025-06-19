@@ -2,7 +2,7 @@
 **MTXTracker** is a personal gaming finance dashboard that helps you track your in-game purchases and subscriptions.
 
  **Live Site:** [mtxtracker.com](https://mtxtracker.com/)
-- **Note**
+- **⚠️ Note:**
   The free Render app may take 10–30 seconds to wake up after inactivity.
 ---
 
