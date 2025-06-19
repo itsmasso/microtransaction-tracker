@@ -14,73 +14,74 @@
 .dashboard-top-cards {
   display: flex;
   gap: 1rem;
-  height: 7rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .dashboard-total-subs {
   justify-content: center;
+  align-items: center;
 }
 .dashboard-total-subs h3 {
   font-weight: 400;
 }
 
 .dashboard-top-game {
-  flex: 1;
-  min-width: 400px;
-}
-
-.dashboard-top-game-title {
-  font-size: 3rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 120px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: stretch;
+}
+.dashboard-top-game-overlay {
+  background: rgba(20, 24, 32, 0.52);
+  width: 100%;
+  height: 100%;
+  display: flex;
   align-items: center;
-  margin-left: 5rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
-.dashboard-top-game-title h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: white;
-}
-
-.dashboard-top-game-title span {
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: white;
-}
-
 .dashboard-top-game-total {
   display: flex;
   flex-direction: column;
-  color: #ebecee;
+  align-items: center;
 }
 .dashboard-top-game-total h1 {
   font-size: 2.8rem;
-
-  color: #419dd9;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  color: #3b96df;
 }
-
 .dashboard-top-game-total span {
   font-weight: 400;
   font-size: 1.2rem;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.dashboard-top-game h3 {
-  font-size: 0.95rem;
+.dashboard-top-game-title {
+  font-size: 2.2rem;
   font-weight: 600;
-  color: white;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0;
 }
-.dashboard-top-game p {
-  margin-top: 3rem;
+
+.dashboard-top-game-label {
+  font-size: 1.2rem;
+  color: #bbb;
 }
+
 .dashboard p {
   color: #606972;
 }
-
+.dashboard-total-spent {
+  align-items: center;
+  justify-content: center;
+}
 .dashboard-total-spent h1 {
   font-size: 2.8rem;
   color: #d84d4d;
@@ -136,6 +137,7 @@
   }
   .dashboard-total-subs {
     align-items: center;
+
     flex: 1;
   }
   .hide-on-mobile {
@@ -155,6 +157,12 @@
   .dashboard-top-game {
     min-width: 100%;
     padding: 0.5rem 0;
+    min-height: 90px;
+  }
+  .dashboard-top-game-overlay {
+    gap: 0.7rem;
+    padding: 0rem 0.5rem;
+    flex-direction: column;
   }
   .dashboard-top-game-title {
     font-size: 1.2rem;

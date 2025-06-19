@@ -128,25 +128,27 @@ const Dashboard = ({ user }) => {
           </div>
 
           {games.length === 0 ? (
-            <div className="page-card dashboard-top-game hide-on-mobile">
+            <div className="page-card dashboard-top-game">
               <p>Add a game to show your most spent game!</p>
             </div>
           ) : (
-            <div className="image-overlay-card dashboard-top-game hide-on-mobile">
-              <img
-                src={highestSpentGame.gameId.coverUrl}
-                alt="Top game cover"
-              />
-              <div className="image-overlay-bg-fade" />
-              <div className="image-overlay-card-content top-game-content">
+            <div
+              className="dashboard-top-game"
+              style={{
+                backgroundImage: `url(${highestSpentGame.gameId.coverUrl})`,
+              }}
+            >
+              <div className="dashboard-top-game-overlay">
                 <div className="dashboard-top-game-total">
                   <h1>${topGameTotalExpenses}</h1>
                   <span>Total spent</span>
                 </div>
-                <div className="dashboard-top-game-title">
-                  <h1>{highestSpentGame.gameId.name}</h1>
-                  <span>Highest spent game</span>
-                </div>
+                <h1 className="dashboard-top-game-title">
+                  {highestSpentGame.gameId.name}
+                </h1>
+                <span className="dashboard-top-game-label">
+                  Highest spent game
+                </span>
               </div>
             </div>
           )}
