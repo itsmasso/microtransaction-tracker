@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import googleAuthRoutes from "./routes/GoogleAuthRoutes.js";
 
 dotenv.config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 connectDB();
 const app = express();
 

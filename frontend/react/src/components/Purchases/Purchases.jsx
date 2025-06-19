@@ -139,7 +139,7 @@ const Purchases = () => {
           </select>
         </div>
         <div className="filter-type-container">
-          <label htmlFor="searchByType">Type</label>
+          <label htmlFor="searchByType">Filter Type</label>
           <select
             name="searchByType"
             value={filterType}
@@ -154,7 +154,7 @@ const Purchases = () => {
         </div>
         <div className="sort-container">
           <div className="filter-type-container">
-            <label htmlFor="sortBy">Type</label>
+            <label htmlFor="sortBy">Sort Type</label>
             <select
               name="sortBy"
               value={sortType}

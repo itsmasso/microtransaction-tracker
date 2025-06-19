@@ -61,7 +61,6 @@
 .sort-container {
   display: flex;
   gap: 0.5rem;
-  
 }
 .sort-container button {
   background: none;
@@ -113,3 +112,44 @@
   justify-content: center;
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  .purchases-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .sort-container,
+  .filter-type-container {
+    width: 100%;
+  }
+
+  .purchases-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .purchases-container-header,
+  .purchase-row {
+    padding: 0.5rem;
+  }
+
+  .purchase-col {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .purchase-game-img {
+    display: none;
+  }
+  #game-title-image {
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+}
+

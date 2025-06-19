@@ -7,7 +7,7 @@
 }
 
 .layout-right {
-   flex: 1;
+  flex: 1;
   margin-left: 285px;
   height: 100vh;
   display: flex;
@@ -39,9 +39,19 @@
 .main-content-wrapper {
   flex: 1;
   overflow-y: auto;
-margin-top: 80px;
+  margin-top: 80px;
 }
 .main-content-inner {
   padding: 1rem;
- 
+}
+@media (max-width: 768px) {
+  .sidebar-wrapper {
+    width: 200px;
+  }
+  .layout-right {
+    margin-left: 200px;
+  }
+.navbar-wrapper{
+width: calc(100% - 200px);
+}
 }

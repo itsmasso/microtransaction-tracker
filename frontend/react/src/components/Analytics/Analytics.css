@@ -136,3 +136,13 @@
 .sub-cost {
   font-size: 1.5rem;
 }
+
+@media (max-width: 768px) {
+  .statistics {
+    flex-direction: column;
+    padding: 1.75rem 1rem;
+  }
+  .statistics-card {
+    width: 100%;
+  }
+}

@@ -5,16 +5,21 @@
   padding: 1.75rem 14rem;
   position: relative;
   gap: 1rem;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
-.dashboard p{
-color: white;
+.dashboard p {
+  color: white;
 }
-.dashboard-top {
+.dashboard-top-cards {
   display: flex;
   gap: 1rem;
   height: 7rem;
+  flex-wrap: wrap;
 }
-
+.dashboard-total-subs {
+  justify-content: center;
+}
 .dashboard-total-subs h3 {
   font-weight: 400;
 }
@@ -69,12 +74,11 @@ color: white;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.dashboard-top-game p{
-
-margin-top: 3rem;
+.dashboard-top-game p {
+  margin-top: 3rem;
 }
-.dashboard p{
-color: #606972;
+.dashboard p {
+  color: #606972;
 }
 
 .dashboard-total-spent h1 {
@@ -85,7 +89,6 @@ color: #606972;
   font-weight: 400;
   font-size: 1.2rem;
 }
-
 
 .dashboard-search-container {
   display: flex;
@@ -116,6 +119,26 @@ color: #606972;
   color: #606972;
 }
 
-.dashboard-games{
-min-height: 500px;
+.dashboard-games {
+  min-height: 500px;
+}
+.top-game-content {
+  margin-left: 30px;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem 1rem;
+  }
+  .dashboard-total-spent {
+    flex: 1;
+    align-items: center;
+  }
+  .dashboard-total-subs {
+    align-items: center;
+    flex: 1;
+  }
+  .hide-on-mobile {
+    display: none !important;
+  }
 }

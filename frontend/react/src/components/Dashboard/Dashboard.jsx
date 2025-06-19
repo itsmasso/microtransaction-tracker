@@ -121,40 +121,38 @@ const Dashboard = ({ user }) => {
     <div className="dashboard">
       {loading && <img src={spinner} alt="loading image" className="spinner" />}
       {!loading && (
-        <div className="dashboard-top">
+        <div className="dashboard-top-cards">
           <div className="page-card dashboard-total-spent">
             <h1>${totalSpent ?? 0}</h1>
             <h3>Total spent</h3>
           </div>
 
-          <div className="image-overlay-card dashboard-top-game">
-            {games.length === 0 ? (
+          {games.length === 0 ? (
+            <div className="page-card dashboard-top-game hide-on-mobile">
               <p>Add a game to show your most spent game!</p>
-            ) : (
-              <>
-                <img
-                  src={highestSpentGame.gameId.coverUrl}
-                  alt="highest spent game cover"
-                />
-                <div className="image-overlay-bg-fade" />
-                <div
-                  className="image-overlay-card-content"
-                  style={{ marginLeft: 30 }}
-                >
-                  <div className="dashboard-top-game-total">
-                    <h1>${topGameTotalExpenses}</h1>
-                    <span>Total spent</span>
-                  </div>
-                  <div className="dashboard-top-game-title">
-                    <h1>{highestSpentGame.gameId.name}</h1>
-                    <span>Highest spent game</span>
-                  </div>
+            </div>
+          ) : (
+            <div className="image-overlay-card dashboard-top-game hide-on-mobile">
+              <img
+                src={highestSpentGame.gameId.coverUrl}
+                alt="Top game cover"
+              />
+              <div className="image-overlay-bg-fade" />
+              <div className="image-overlay-card-content top-game-content">
+                <div className="dashboard-top-game-total">
+                  <h1>${topGameTotalExpenses}</h1>
+                  <span>Total spent</span>
                 </div>
-              </>
-            )}
-          </div>
+                <div className="dashboard-top-game-title">
+                  <h1>{highestSpentGame.gameId.name}</h1>
+                  <span>Highest spent game</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="page-card dashboard-total-subs">
-            <h1 style={{ alignSelf: "center" }}>{totalSubs ?? 0}</h1>
+            <h1>{totalSubs ?? 0}</h1>
             <h3>Subscriptions</h3>
           </div>
         </div>

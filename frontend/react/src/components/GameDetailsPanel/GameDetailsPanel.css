@@ -260,7 +260,6 @@
   align-self: center;
 }
 
-
 .subscription-date {
   display: flex;
   gap: 1rem;
@@ -347,4 +346,10 @@
   text-transform: lowercase;
   margin-top: 0.25rem;
   max-width: 6rem;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    width: 90vw;
+  }
 }
