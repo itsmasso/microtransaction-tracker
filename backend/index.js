@@ -37,6 +37,10 @@ app.use("/user", userRoutes);
 app.use("/games", gamesRoute);
 app.use("/", googleAuthRoutes);
 
+app.get("/ping", (req, res) => {
+  res.status(200).json({ message: "pong" });
+});
+
 app.listen(PORT, () => {
   console.log("Server is running.");
 });
