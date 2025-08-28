@@ -1,8 +1,10 @@
 import { React, useState, useEffect } from "react";
 import "./Settings.css";
 import { useNavigate } from "react-router-dom";
-const Settings = ({ user }) => {
-  const [email, setEmail] = useState(user.user.email);
+import { useSignupModal } from "../../context/SignupModalContext";
+const Settings = ({ user, isDemo }) => {
+  const { openSignupModal } = useSignupModal();
+  const [email, setEmail] = useState(isDemo ? 'demo@example.com' : user?.user?.email || user?.email);
   const [editingEmail, setEditingEmail] = useState(false);
   const [editingPassword, setEditingPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -49,6 +51,11 @@ const Settings = ({ user }) => {
   }, [editingPassword]);
 
   const updateEmail = async () => {
+    if (isDemo) {
+      openSignupModal();
+      return;
+    }
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailHasError = !emailRegex.test(email);
     setErrors({
@@ -82,6 +89,12 @@ const Settings = ({ user }) => {
 
   const updatePassword = async (e) => {
     e.preventDefault();
+    
+    if (isDemo) {
+      openSignupModal();
+      return;
+    }
+    
     const passwordMismatchError = newPassword !== confirmPassword;
     const passwordTooShort = newPassword.length < 8;
 
@@ -123,6 +136,11 @@ const Settings = ({ user }) => {
     }
   };
   const deleteAccount = async () => {
+    if (isDemo) {
+      openSignupModal();
+      return;
+    }
+    
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account?"
     );

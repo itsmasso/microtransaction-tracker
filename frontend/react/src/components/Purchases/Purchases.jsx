@@ -10,7 +10,8 @@ import { flattenUserGames, sortItems } from "../../util/ExpenseUtil";
 import { paginate } from "../../util/PaginationUtil";
 import Pagination from "../Pagination/Pagination";
 import spinner from "../../assets/spinner.svg";
-const Purchases = () => {
+import { getDemoData } from "../../util/demoData";
+const Purchases = ({ isDemo }) => {
   const [userGames, setUserGames] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [query, setQuery] = useState("");
@@ -27,8 +28,10 @@ const Purchases = () => {
     setQuery("");
     setFilterType("None");
     setUsingFilters(false);
-    const rebuiltItems = flattenUserGames(userGames);
-    setFilteredItems(rebuiltItems);
+    if (userGames && userGames.length > 0) {
+      const rebuiltItems = flattenUserGames(userGames);
+      setFilteredItems(rebuiltItems);
+    }
     setCurrentPage(1);
   };
 
@@ -49,17 +52,25 @@ const Purchases = () => {
     const fetchUserGames = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
-          { method: "GET", credentials: "include" }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setUserGames(data.games || []);
-
-          const allItems = flattenUserGames(data.games || []);
+        if (isDemo) {
+          // In demo mode, use demo data
+          const demoData = getDemoData();
+          setUserGames(demoData);
+          const allItems = flattenUserGames(demoData);
           setFilteredItems(allItems);
+        } else {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/games/get-user-games`,
+            { method: "GET", credentials: "include" }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            setUserGames(data.games || []);
+
+            const allItems = flattenUserGames(data.games || []);
+            setFilteredItems(allItems);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch user games!", err);
@@ -69,8 +80,13 @@ const Purchases = () => {
     };
 
     fetchUserGames();
-  }, []);
+  }, [isDemo]);
   const filterItems = (searchText = query, typeFilter = filterType) => {
+    // Don't process if userGames is empty
+    if (!userGames || userGames.length === 0) {
+      return;
+    }
+    
     const allItems = flattenUserGames(userGames);
 
     let results = [];
@@ -99,9 +115,10 @@ const Purchases = () => {
   };
   useEffect(() => {
     if (filterType === "None" && query === "") {
-      const allItems = flattenUserGames(userGames);
-
-      setFilteredItems(allItems);
+      if (userGames && userGames.length > 0) {
+        const allItems = flattenUserGames(userGames);
+        setFilteredItems(allItems);
+      }
       setUsingFilters(false);
     } else {
       filterItems();

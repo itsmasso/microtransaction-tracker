@@ -4,7 +4,8 @@ import "./Games.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import spinner from "../../assets/spinner.svg";
-const Games = ({ user }) => {
+import { getDemoData } from "../../util/demoData";
+const Games = ({ user, isDemo }) => {
   const [games, setGames] = useState([]);
   const [userGames, setUserGames] = useState([]);
   const [query, setQuery] = useState("");
@@ -33,13 +34,19 @@ const Games = ({ user }) => {
     const fetchUserGames = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
-          { method: "GET", credentials: "include" }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setUserGames(data.games);
+        if (isDemo) {
+          // In demo mode, use demo data
+          const demoData = getDemoData();
+          setUserGames(demoData);
+        } else {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/games/get-user-games`,
+            { method: "GET", credentials: "include" }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setUserGames(data.games);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch user games!", err);
@@ -48,7 +55,7 @@ const Games = ({ user }) => {
       }
     };
     fetchUserGames();
-  }, [games]);
+  }, [games, isDemo]);
   return (
     <div className="games">
       <div className="page-card-header" style={{ marginBottom: 20 }}>
@@ -66,23 +73,44 @@ const Games = ({ user }) => {
         </form>
       </div>
       {loading && <img src={spinner} alt="loading image" className="spinner"/>}
-      {!loading && games.length === 0 && (
+      {!loading && games.length === 0 && !isDemo && (
         <p>Search for a game to add to your library.</p>
       )}
-      <ul className="grid">
-        {games.map((game) => (
-          <li key={game.igdbId}>
-            <Gamecard
-              user={user}
-              game={game}
-              userGame={userGames.find(
-                (ug) => ug.gameId.igdbId === game.igdbId
-              )}
-              source="games"
-            />
-          </li>
-        ))}
-      </ul>
+      {!loading && games.length === 0 && isDemo && (
+        <div>
+          <p>Your demo game library:</p>
+          <ul className="grid">
+            {userGames.map((userGame) => (
+              <li key={userGame.gameId.igdbId}>
+                <Gamecard
+                  user={user}
+                  game={userGame.gameId}
+                  userGame={userGame}
+                  source="games"
+                  isDemo={isDemo}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {games.length > 0 && (
+        <ul className="grid">
+          {games.map((game) => (
+            <li key={game.igdbId}>
+              <Gamecard
+                user={user}
+                game={game}
+                userGame={userGames.find(
+                  (ug) => ug.gameId.igdbId === game.igdbId
+                )}
+                source="games"
+                isDemo={isDemo}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

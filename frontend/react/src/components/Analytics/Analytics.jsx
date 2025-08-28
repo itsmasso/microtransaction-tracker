@@ -12,7 +12,8 @@ import {
   Legend,
 } from "chart.js";
 import spinner from "../../assets/spinner.svg";
-const Analytics = ({ user }) => {
+import { getDemoData } from "../../util/demoData";
+const Analytics = ({ user, isDemo }) => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -88,13 +89,19 @@ const Analytics = ({ user }) => {
     const fetchUserGames = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
-          { method: "GET", credentials: "include" }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setUserGames(data.games || []);
+        if (isDemo) {
+          // In demo mode, use demo data
+          const demoData = getDemoData();
+          setUserGames(demoData);
+        } else {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/games/get-user-games`,
+            { method: "GET", credentials: "include" }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setUserGames(data.games || []);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch user games!", err);
@@ -103,7 +110,7 @@ const Analytics = ({ user }) => {
       }
     };
     fetchUserGames();
-  }, []);
+  }, [isDemo]);
 
   const expenseData = {
     labels: [

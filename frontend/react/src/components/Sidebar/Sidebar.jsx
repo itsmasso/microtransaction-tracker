@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,6 +11,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import M_logo from "../../assets/mtxtracker_logo.png";
 const Sidebar = () => {
+  const location = useLocation();
+  const isDemo = location.pathname.startsWith('/demo');
+  const routePrefix = isDemo ? '/demo' : '';
   return (
     <>
       {/* Sidebar Container */}
@@ -22,7 +25,7 @@ const Sidebar = () => {
           </div>
           <div className="sidebar-nav-links">
             <NavLink
-              to="/dashboard"
+              to={`${routePrefix}/dashboard`}
               className={({ isActive }) =>
                 `sidebar-button${isActive ? " active" : ""}`
               }
@@ -31,7 +34,7 @@ const Sidebar = () => {
               <span>Dashboard</span>
             </NavLink>
             <NavLink
-              to="/games"
+              to={`${routePrefix}/games`}
               className={({ isActive }) =>
                 `sidebar-button${isActive ? " active" : ""}`
               }
@@ -40,7 +43,7 @@ const Sidebar = () => {
               <span>Games</span>
             </NavLink>
             <NavLink
-              to="/purchases"
+              to={`${routePrefix}/purchases`}
               className={({ isActive }) =>
                 `sidebar-button${isActive ? " active" : ""}`
               }
@@ -52,7 +55,7 @@ const Sidebar = () => {
               <span>Purchases</span>
             </NavLink>
             <NavLink
-              to="/analytics"
+              to={`${routePrefix}/analytics`}
               className={({ isActive }) =>
                 `sidebar-button${isActive ? " active" : ""}`
               }
@@ -61,7 +64,7 @@ const Sidebar = () => {
               <span>Statistics</span>
             </NavLink>
             <NavLink
-              to="/settings"
+              to={`${routePrefix}/settings`}
               className={({ isActive }) =>
                 `sidebar-button${isActive ? " active" : ""}`
               }

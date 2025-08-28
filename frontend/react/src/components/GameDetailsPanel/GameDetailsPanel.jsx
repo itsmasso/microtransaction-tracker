@@ -7,13 +7,16 @@ import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getDaysRemaining } from "../../util/SubscriptionCounter";
+import { useSignupModal } from "../../context/SignupModalContext";
 
 const GameDetailsPanel = ({
   userGame,
   onClose,
   onGameDetailChange,
   onDeleteUserGame,
+  isDemo,
 }) => {
+  const { openSignupModal } = useSignupModal();
   const expenses = userGame.expenses || [];
   const [newExpense, setNewExpense] = useState({
     name: "",
@@ -44,6 +47,12 @@ const GameDetailsPanel = ({
   };
   const handleAddExpense = async () => {
     if (!newExpense.name || !newExpense.purchaseAmount) return;
+
+    if (isDemo) {
+      // Show signup prompt for demo users
+      openSignupModal();
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -159,6 +168,10 @@ const GameDetailsPanel = ({
     }
   };
   const handleDeleteGame = async () => {
+    if (isDemo) {
+      openSignupModal();
+      return;
+    }
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/games/delete-user-game`,
@@ -197,7 +210,7 @@ const GameDetailsPanel = ({
               <h1>{userGame.gameId.name}</h1>
               <div className="panel-game-details-total">
                 <span>Total spent</span>
-                <h1>{`$ ${totalSpent}`}</h1>
+                <h1>${Number(totalSpent).toFixed(2).replace(/\.00$/, '')}</h1>
               </div>
               <p>
                 <strong>Date added:</strong> {formatDateUTC(userGame.addedAt)}

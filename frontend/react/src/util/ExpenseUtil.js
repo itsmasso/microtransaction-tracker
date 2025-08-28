@@ -1,21 +1,27 @@
 export const flattenUserGames = (userGames) => {
-  return userGames.flatMap((game) => {
+  const result = userGames.flatMap((game) => {
+    // Handle both demo data structure and regular data structure
+    const gameName = game.gameId?.name || game.name;
+    const gameCoverUrl = game.gameId?.coverUrl || game.cover || game.gameId?.coverUrl;
+    
     const expenses = game.expenses?.map((expense) => ({
       ...expense,
       type: "Expense",
-      gameName: game.gameId.name,
-      gameCoverUrl: game.gameId.coverUrl,
+      gameName: gameName,
+      gameCoverUrl: gameCoverUrl,
     })) || [];
 
     const subs = game.subscriptions?.map((sub) => ({
       ...sub,
       type: "Subscription",
-      gameName: game.gameId.name,
-      gameCoverUrl: game.gameId.coverUrl,
+      gameName: gameName,
+      gameCoverUrl: gameCoverUrl,
     })) || [];
 
     return [...expenses, ...subs];
   });
+  
+  return result;
 };
 
 export const sortItems = (items, sortType, sortOrder) => {

@@ -7,7 +7,11 @@ import GameDetailPanel from "../GameDetailsPanel/GameDetailsPanel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import spinner from "../../assets/spinner.svg";
-const Dashboard = ({ user }) => {
+import { getDemoData, saveDemoData, DEMO_USER } from "../../util/demoData";
+import { useSignupModal } from "../../context/SignupModalContext";
+
+const Dashboard = ({ user, isDemo }) => {
+  
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -98,15 +102,23 @@ const Dashboard = ({ user }) => {
     const fetchUserGames = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/games/get-user-games`,
-          { method: "GET", credentials: "include" }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setGames(data.games || []);
-          setFilteredGames(data.games || []);
+        if (isDemo) {
+          // Use demo data
+          const demoGames = getDemoData();
+          setGames(demoGames);
+          setFilteredGames(demoGames);
+        } else {
+          // Fetch real data
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/games/get-user-games`,
+            { method: "GET", credentials: "include" }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            setGames(data.games || []);
+            setFilteredGames(data.games || []);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch user games!", err);
@@ -115,7 +127,7 @@ const Dashboard = ({ user }) => {
       }
     };
     fetchUserGames();
-  }, []);
+  }, [isDemo]);
 
   return (
     <div className="dashboard">
@@ -140,7 +152,7 @@ const Dashboard = ({ user }) => {
             >
               <div className="dashboard-top-game-overlay">
                 <div className="dashboard-top-game-total">
-                  <h1>${topGameTotalExpenses}</h1>
+                  <h1>${Number(topGameTotalExpenses).toFixed(2)}</h1>
                   <span>Total spent</span>
                 </div>
                 <h1 className="dashboard-top-game-title">
@@ -204,6 +216,7 @@ const Dashboard = ({ user }) => {
           }}
           onGameDetailChange={updateGameDetails}
           onDeleteUserGame={updateUserGames}
+          isDemo={isDemo}
         />
       )}
     </div>

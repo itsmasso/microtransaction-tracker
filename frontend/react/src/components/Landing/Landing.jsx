@@ -29,12 +29,20 @@ const Landing = () => {
             Log your games, track your playtime, subscriptions, and
             microtransactions. Analyze your gaming habits with ease.
           </p>
-          <button
-            className="blue-button get-started-button"
-            onClick={handleGetStartedButton}
-          >
-            Get Started Free
-          </button>
+          <div className="landing-buttons">
+            <button
+              className="blue-button get-started-button"
+              onClick={handleGetStartedButton}
+            >
+              Get Started Free
+            </button>
+            <button
+              className="demo-button"
+              onClick={() => navigate("/demo/dashboard")}
+            >
+              Try it out
+            </button>
+          </div>
         </section>
         {/* Features */}
         <section className="features">

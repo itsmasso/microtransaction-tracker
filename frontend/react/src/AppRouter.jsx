@@ -15,6 +15,7 @@ import PublicLayout from "./components/PublicLayout/PublicLayout";
 import ForgotPasswordWizard from "./components/ForgotPassword/ForgotPasswordWizard";
 import { checkAuth } from "./util/userAuthUtil";
 import { Routes, Route, useLocation } from "react-router";
+import { SignupModalProvider } from "./context/SignupModalContext";
 
 const AppRouter = () => {
   const [user, setUser] = useState(null);
@@ -38,26 +39,37 @@ const AppRouter = () => {
   };
   if (loading) return null;
   return (
-    <Routes>
-      <Route element={<PublicRoute user={user} />}>
-        <Route path="/" element={<PublicLayout />}>
-          <Route index element={<Landing />} />
-          <Route path="login" element={<Login setUser={setUser} />} />
-          <Route path="register" element={<SignupWizard />} />
-          <Route path="forgot-password" element={<ForgotPasswordWizard />} />
+    <SignupModalProvider>
+      <Routes>
+        <Route element={<PublicRoute user={user} />}>
+          <Route path="/" element={<PublicLayout />}>
+            <Route index element={<Landing />} />
+            <Route path="login" element={<Login setUser={setUser} />} />
+            <Route path="register" element={<SignupWizard />} />
+            <Route path="forgot-password" element={<ForgotPasswordWizard />} />
+          </Route>
         </Route>
-      </Route>
 
-      <Route element={<ProtectedRoute user={user} />}>
-        <Route path="/" element={<PageLayout onLogout={onLogout} user={user} />}>
-          <Route path="dashboard" element={<Dashboard user={user} />}></Route>
-          <Route path="games" element={<Games user={user} />}></Route>
-          <Route path="purchases" element={<Purchases />}></Route>
-          <Route path="analytics" element={<Analytics />}></Route>
-          <Route path="settings" element={<Settings user={user} />}></Route>
+        {/* Demo Routes */}
+        <Route path="/demo" element={<PageLayout isDemo={true} />}>
+          <Route path="dashboard" element={<Dashboard isDemo={true} />} />
+          <Route path="games" element={<Games isDemo={true} />} />
+          <Route path="purchases" element={<Purchases isDemo={true} />} />
+          <Route path="analytics" element={<Analytics isDemo={true} />} />
+          <Route path="settings" element={<Settings isDemo={true} />} />
         </Route>
-      </Route>
-    </Routes>
+
+        <Route element={<ProtectedRoute user={user} />}>
+          <Route path="/" element={<PageLayout onLogout={onLogout} user={user} />}>
+            <Route path="dashboard" element={<Dashboard user={user} />}></Route>
+            <Route path="games" element={<Games user={user} />}></Route>
+            <Route path="purchases" element={<Purchases />}></Route>
+            <Route path="analytics" element={<Analytics />}></Route>
+            <Route path="settings" element={<Settings user={user} />}></Route>
+          </Route>
+        </Route>
+      </Routes>
+    </SignupModalProvider>
   );
 };
 

@@ -66,3 +66,83 @@
     width: calc(100% - 60px);
   }
 }
+
+/* Demo Banner Styles */
+.demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  background: linear-gradient(135deg, #007bff, #4197da);
+  color: white;
+  padding: 10px 20px;
+  z-index: 30;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.demo-banner-content {
+  display: flex;
+  height: 2.5rem;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.demo-banner-content span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.demo-banner-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.demo-signup-btn,
+.demo-exit-btn {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.demo-signup-btn {
+  background-color: white;
+  color: #007bff;
+}
+
+.demo-signup-btn:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.demo-exit-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.demo-exit-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .demo-banner-content {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .demo-banner {
+    padding: 15px 20px;
+  }
+
+  .layout:has(.demo-banner) .main-content-wrapper {
+    margin-top: 140px;
+  }
+}

@@ -49,14 +49,19 @@ const Navbar = ({ onLogout, user }) => {
   const pageTitle = (path) => {
     switch (path) {
       case "/dashboard":
+      case "/demo/dashboard":
         return "Dashboard";
       case "/games":
+      case "/demo/games":
         return "Games";
       case "/purchases":
+      case "/demo/purchases":
         return "Purchases";
       case "/analytics":
+      case "/demo/analytics":
         return "Statistics";
       case "/settings":
+      case "/demo/settings":
         return "Settings";
       default:
         return "Unknown page";

@@ -14,9 +14,33 @@
   width: 60vw;
   margin: 0 auto;
 }
+.landing-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .get-started-button {
   font-size: 18px;
   padding: 13px 28px;
+}
+
+.demo-button {
+  font-size: 18px;
+  padding: 13px 28px;
+  background-color: transparent;
+  border: 2px solid #4197da;
+  color: #4197da;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.demo-button:hover {
+  background-color: #4198da3a;
+
 }
 
 /* Hero Section */
