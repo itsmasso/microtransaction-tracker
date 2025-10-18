@@ -22,5 +22,5 @@
 
 - **Backend:** Express.js / Node.js  
 - **Frontend:** React, HTML, CSS, JavaScript
-- - **Database:** MongoDB
+- **Database:** MongoDB
 - **Deployment:** Vercel (frontend), Render (backend)
