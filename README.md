@@ -17,3 +17,10 @@
   Visualize where your money is going with summaries and charts.
 
 ---
+
+##  Tech Stack
+
+- **Backend:** Express.js / Node.js  
+- **Frontend:** React, HTML, CSS, JavaScript
+- - **Database:** MongoDB
+- **Deployment:** Vercel (frontend), Render (backend)
