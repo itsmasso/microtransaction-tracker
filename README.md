@@ -3,7 +3,7 @@
 
  **Live Site:** [mtxtracker.com](https://mtxtracker.com/)
 - **⚠️ Note:**
-  The backend is hosted on Render, and their free plan spins down after inactivity. Please wait 10–30 seconds for it to wake up.
+  The backend is hosted on Render, and their free plan spins down after inactivity. If it is not loaded already, please wait 10–30 seconds for it to wake up.
 ---
 
 ##  Features
