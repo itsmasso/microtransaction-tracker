@@ -71,7 +71,7 @@
 .demo-banner {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 285px;
   right: 0;
 
   background: linear-gradient(135deg, #007bff, #4197da);
@@ -132,8 +132,13 @@
 }
 
 @media (max-width: 768px) {
+  .demo-banner {
+    left: 200px;
+  }
+
   .demo-banner-content {
     flex-direction: column;
+    height: auto;
     gap: 10px;
     text-align: center;
   }
@@ -144,5 +149,40 @@
 
   .layout:has(.demo-banner) .main-content-wrapper {
     margin-top: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .demo-banner {
+    left: 60px;
+    padding: 0.75rem;
+  }
+
+  .demo-banner-content {
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .demo-banner-content span {
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  .demo-banner-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .demo-signup-btn,
+  .demo-exit-btn {
+    min-height: 36px;
+    padding: 0.45rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .layout:has(.demo-banner) .main-content-wrapper {
+    margin-top: 155px;
   }
 }

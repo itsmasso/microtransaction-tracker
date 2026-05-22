@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 12px;
+  box-sizing: border-box;
 }
 .panel,
 .expenses-scroll {
@@ -179,6 +180,7 @@
   caret-color: white;
   outline: none;
   color: white;
+  box-sizing: border-box;
 }
 .panel input:focus {
   border: 1px solid #61656d;
@@ -278,6 +280,12 @@
   padding-right: 4px;
 }
 
+.expenses-scroll ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .expense-item {
   display: flex;
   align-items: center;
@@ -294,6 +302,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .expense-name {
@@ -350,6 +359,102 @@
 
 @media (max-width: 768px) {
   .panel {
-    width: 90vw;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vw - 2rem);
+    max-height: calc(100dvh - 2rem);
+    height: auto;
+    padding: 1.25rem;
+  }
+
+  .panel-game-details {
+    flex-direction: column;
+  }
+
+  .panel-game-details-left {
+    gap: 0.75rem;
+  }
+
+  .panel-game-details h1 {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .panel-image-container {
+    order: -1;
+    align-self: center;
+    width: min(100%, 14rem);
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
+  .panel-game-details-total {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .panel-forms-wrapper {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .expenses-scroll {
+    max-height: none;
+    overflow: visible;
+    margin-top: 0;
+    padding-right: 0;
+  }
+
+  .subscription-date {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    max-height: none;
+    height: 100dvh;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .panel-content {
+    gap: 0.85rem;
+  }
+
+  .panel-game-details h1 {
+    font-size: 1.9rem;
+  }
+
+  .panel-game-details-total {
+    padding: 0.85rem 1rem;
+  }
+
+  .panel-game-details-total h1 {
+    font-size: 2.2rem;
+  }
+
+  .panel-game-details-total span,
+  .panel-game-details-left p {
+    font-size: 1rem;
+  }
+
+  .panel-image-container {
+    width: min(100%, 11rem);
+  }
+
+  .panel-forms-wrapper {
+    padding: 0.85rem;
+  }
+
+  .expense-item {
+    gap: 0.65rem;
+    padding: 0.75rem;
   }
 }

@@ -23,6 +23,7 @@
   background-color: #1d212a;
   border-radius: 15px;
   color: #ebecee;
+  box-sizing: border-box;
 }
 .statistics-page-right {
   display: flex;
@@ -160,15 +161,84 @@
     overflow-x: hidden;
   }
 
-  .statistics-card,
-  .statistics-page-right,
-  .active-subs-card,
-  .sub-cost-total {
-    width: calc(100% - 2rem);
+  .statistics-card {
+    width: 100%;
     min-width: 0;
     box-sizing: border-box;
-    padding: 0.75rem 0;
-    margin: 0 auto;
+    padding: 1rem;
   }
 
+  .statistics-card-header {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0;
+  }
+
+  .statistics-page-right {
+    width: 100%;
+    min-width: 0;
+    gap: 0.75rem;
+  }
+
+  .active-subs-card,
+  .sub-cost-total {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .sub-cost-total {
+    align-items: flex-start;
+  }
+
+  .active-subscription-card {
+    gap: 0.6rem;
+  }
+
+  .subs-image-overlay-card {
+    min-height: 132px;
+    height: auto;
+  }
+
+  .subs-image-overlay-card-content {
+    display: grid;
+    gap: 0.45rem;
+    align-content: end;
+    padding: 0.85rem;
+    white-space: normal;
+    box-sizing: border-box;
+  }
+
+  .subs-image-overlay-card img,
+  .subs-image-overlay-bg-fade {
+    width: 100%;
+  }
+
+  .subs-image-overlay-bg-fade {
+    background: linear-gradient(
+      90deg,
+      rgba(14, 17, 24, 0.96) 0%,
+      rgba(14, 17, 24, 0.52) 100%
+    );
+  }
+
+  .sub-days-remaining,
+  .sub-name {
+    align-items: flex-start;
+    margin-bottom: 0;
+    min-width: 0;
+  }
+
+  .sub-cost,
+  .sub-name h2 {
+    font-size: 1.15rem;
+    line-height: 1.2;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sub-name span {
+    overflow-wrap: anywhere;
+  }
 }

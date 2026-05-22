@@ -21,6 +21,8 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: flex-start;
+  margin: 0;
+  padding: 0;
 }
 .scroll {
   scrollbar-width: thin;
@@ -51,6 +53,7 @@
   border-radius: 15px;
   padding: 1rem 1.5rem;
   color: #ebecee;
+  box-sizing: border-box;
   
 }
 .page-card-header {
@@ -201,4 +204,3 @@
 .blue-button-outline:hover {
   background-color: #4297d828;
 }
-
